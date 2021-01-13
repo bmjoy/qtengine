@@ -1,0 +1,26 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClientSpawnManager : BaseSpawnManager {
+
+    public ClientSpawnManager() : base() {
+
+    }
+
+    public override BaseQTObject spawnObject(string objectID, string prefabName, SyncMessage spawnPosition) {
+        GameObject obj = QTUtils.spawnGameobject(AppManager.instance.networkStorage.prefabs.Find(o => o.name == prefabName), spawnPosition);
+        ClientQTObject spawnedObj = obj.AddComponent<ClientQTObject>();
+        spawnedObj.objectID = objectID;
+        spawnedObj.prefabName = prefabName;
+        processSpawn(spawnedObj);
+
+        return spawnedObj;
+    }
+
+    public override void despawnObject(string objectID) {
+        QTUtils.despawnGameobject(spawnedObjects[objectID].gameObject);
+        processDespawn(objectID);
+    }
+}

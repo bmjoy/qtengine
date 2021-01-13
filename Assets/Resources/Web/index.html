@@ -1,0 +1,260 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <style>
+            @font-face {
+                src: url("https://files.catbox.moe/9j998k.woff");
+                font-family: "uwuFont";
+            }
+
+            ::-webkit-scrollbar {
+                width: 1em;
+            }
+
+            ::-webkit-scrollbar-track {
+                background-color: var(--color4);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: darkgray;
+            }
+
+            * {
+                font-family: "uwuFont";
+                --color1: gray;
+                --color2: #656565;
+                --color3: #6f6f6f;
+                --color4: #6f6f6f;
+            }
+
+            body {
+                margin: 0;
+                background-color: var(--color1);
+            }
+
+            .body {
+                width: 100%;
+                height: 100%;
+            }
+
+            .header {
+                background-color: var(--color2);
+                height: 50px;
+                width: 100%;
+            }
+
+            .headerText {
+                font-size: 20px;
+            }
+
+            .full,
+            .headerTextWrapper {
+                width: 100%;
+                height: 100%;
+            }
+
+            .flex,
+            .sectionText,
+            .sections {
+                display: flex;
+            }
+
+            .aligny,
+            .sectionItem,
+            .headerTextWrapper {
+                display: flex;
+                align-items: center;
+            }
+
+            .alignmiddle,
+            .packetPart {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .headerIcon {
+                height: 70%;
+            }
+
+            .headerIcon,
+            .headerText {
+                margin-left: 10px;
+            }
+
+            .sections {
+                padding: 15px;
+            }
+
+            .section {
+                background-color: var(--color2);
+                padding: 15px;
+
+                display: flex;
+                flex-flow: column;
+
+                margin-right: 20px;
+                overflow-y: scroll;
+            }
+
+            .section1 {
+                width: 500px;
+                height: 600px;
+            }
+
+            .section2 {
+                width: 400px;
+                height: 600px;
+            }
+
+            .section3 {
+                width: 400px;
+                height: 600px;
+            }
+
+            .sectionList {
+                background-color: var(--color3);
+                flex: 1 1 auto;
+                margin-top: 10px;
+            }
+
+            .sectionItem {
+                width: 100%;
+                height: 30px;
+                background-color: var(--color2);
+            }
+
+            .sectionHeader {
+                flex: 0 1 auto;
+                margin-bottom: 5px;
+            }
+
+            .packetPart {
+                height: 100%;
+                font-size: 13px;
+            }
+
+            .clientPart1,
+            .packetPart0,
+            .packetPart1 {
+                width: 30px;
+            }
+
+            .packetPart2 {
+                width: 270px;
+            }
+
+            .clientPart3,
+            .packetPart3 {
+                width: 60px;
+            }
+
+            .clientPart2,
+            .packetPart4 {
+                width: 100px;
+            }
+
+            .packetDir {
+                width: 70%;
+                height: 70%;
+            }
+
+            .packetPart:nth-child(2n+1) {
+                background-color: var(--color1);
+            }
+
+            .sectionText {
+                font-size: 13px;
+                padding: 3px;
+            }
+
+            .sectionTextValue,
+            .sectionTextName {
+                white-space: pre-wrap;
+            }
+
+            .sectionTextName {
+
+            }
+
+            .sectionTextValue {
+                color: #ff7e7e;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="body">
+            <div class="header">
+                <div class="headerTextWrapper">
+                    <img class="headerIcon" src="https://i.pinimg.com/736x/1a/c2/fd/1ac2fd05a248d56b336b09cc2f08ca46.jpg"/>
+                    <div class="headerText">
+                        Unity Server Manager
+                    </div>
+                </div>
+            </div>
+            <div class="sections">
+                <div class="section section1">
+                    <div class="sectionHeader">
+                        All Packets
+                    </div>
+                    <div class="sectionList">
+                        <div class="sectionItem">
+                            <div class="packetPart packetPart0">
+                                -
+                            </div>
+                            <div class="packetPart packetPart1">
+                                ID
+                            </div>
+                            <div class="packetPart packetPart2">
+                                Type
+                            </div>
+                            <div class="packetPart packetPart3">
+                                Size
+                            </div>
+                            <div class="packetPart packetPart4">
+                                Identity
+                            </div>
+                        </div>
+                        //PACKET_ITEMS//
+                    </div>
+                </div>
+                <div class="section section2">
+                    <div class="sectionHeader">
+                        All Clients
+                    </div>
+                    <div class="sectionList">
+                        <div class="sectionItem">
+                            <div class="packetPart clientPart1">
+                                ID
+                            </div>
+                            <div class="packetPart clientPart2">
+                                Identity
+                            </div>
+                            <div class="packetPart clientPart3">
+                                Ping
+                            </div>
+                        </div>
+                        //CLIENT_ITEMS//
+                    </div>
+                </div>
+                <div class="section section3">
+                    <div class="sectionHeader">
+                        Data
+                    </div>
+                    <div class="sectionText">
+                        <div class="sectionTextName">Total Sent: </div>
+                        <div class="sectionTextValue">//TOTAL_SENT//</div>
+                    </div>
+                    <div class="sectionText">
+                        <div class="sectionTextName">Total Recieved: </div>
+                        <div class="sectionTextValue">//TOTAL_RECIEVED//</div>
+                    </div>
+                    <div class="sectionText">
+                        <div class="sectionTextName">Total Messages: </div>
+                        <div class="sectionTextValue">//TOTAL_MESSAGES//</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
