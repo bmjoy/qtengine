@@ -10,14 +10,14 @@ public abstract class BaseBehaviour : MonoBehaviour {
 
     public Action onStart;
     public Action onUpdate;
-    public Action onApplicationQuit;
+    public Action onApplicationExit;
 
     void Start() {
         onStart += debugStart;
         onUpdate += debugUpdate;
         onKeyDown += debugKey;
         onKeyUp += debugKey;
-        onApplicationQuit += debugQuit;
+        onApplicationExit += debugQuit;
 
         onStart();
     }
@@ -35,7 +35,7 @@ public abstract class BaseBehaviour : MonoBehaviour {
     }
 
     void OnApplicationQuit() {
-        OnApplicationQuit();
+        onApplicationExit();
     }
 
     public void debugStart() {
