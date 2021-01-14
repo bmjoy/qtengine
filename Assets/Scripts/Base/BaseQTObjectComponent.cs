@@ -10,63 +10,69 @@ public abstract class BaseQTObjectComponent : MonoBehaviour {
     [HideInInspector]
     public BaseQTObject obj;
 
-    public Dictionary<string, object> lastFields;
+    public ClientQTObjectComponent clientComponent;
+    public ServerQTObjectComponent serverComponent;
+
+    void Update() {
+        if (obj.objectType == BaseQTObject.type.SERVER) {
+            handleServerUpdate();
+        } else {
+            handleClientUpdate();
+        }
+
+        handleUpdate();
+    }
 
     public void handleSpawn() {
-        lastFields = new Dictionary<string, object>();
+        if (obj.objectType == BaseQTObject.type.SERVER) {
+            serverComponent = new ServerQTObjectComponent(this);
+            handleServerObjectSpawn();
 
-        handleServerSpawn();
+            obj.onOwnerChanged += handleServerOwnerChange;
+
+            InvokeRepeating("handleServerSync", 0f, ServerSettings.instance.syncRate);
+        } else {
+            clientComponent = new ClientQTObjectComponent(this);
+            handleClientObjectSpawn();
+
+            obj.onOwnerChanged += handleClientOwnerChange;
+        }
+
+        obj.onOwnerChanged += handleOwnerChange;
         handleObjectSpawn();
     }
 
-    public abstract void handleObjectSpawn();
+    public virtual void handleClientObjectSpawn() {
 
-    public void handleServerSpawn() {
-        if (obj.objectType != BaseQTObject.type.SERVER) { return; }
-        InvokeRepeating("syncFields", 0f, ServerSettings.instance.syncRate);
+    }
+    public virtual void handleServerObjectSpawn() {
+
+    }
+    public virtual void handleObjectSpawn() {
+
     }
 
-    public void syncFields() {
-        foreach (FieldInfo fi in GetType().UnderlyingSystemType.GetFields().Where(pi => Attribute.IsDefined(pi, typeof(QTSynced)))) {
-            object latestValue = fi.GetValue(this);
+    public virtual void handleClientUpdate() {
 
-            if (lastFields.ContainsKey(fi.Name) == false) {
-                lastFields.Add(fi.Name, latestValue);
-            } else if(lastFields[fi.Name].Equals(latestValue) == false) {
-                lastFields[fi.Name] = latestValue;
-                onSyncedFieldChanged(fi.Name, lastFields[fi.Name]);
-            }
-        }
+    }
+    public virtual void handleServerUpdate() {
+
+    }
+    public virtual void handleUpdate() {
+
     }
 
-    public void onSyncedFieldChanged(string fieldName, object fieldValue) {
-        SyncFieldMessage message = new SyncFieldMessage();
-        if (fieldValue.GetType() == typeof(int)) {
-            message = new SyncIntMessage();
-            ((SyncIntMessage)message).value = (int)fieldValue;
-        } else if (fieldValue.GetType() == typeof(float)) {
-            message = new SyncFloatMessage();
-            ((SyncFloatMessage)message).value = (float)fieldValue;
-        } else if (fieldValue.GetType() == typeof(bool)) {
-            message = new SyncBoolMessage();
-            ((SyncBoolMessage)message).value = (bool)fieldValue;
-        } else if (fieldValue.GetType() == typeof(string)) {
-            message = new SyncStringMessage();
-            ((SyncStringMessage)message).value = (string)fieldValue;
-        } else {
-            QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Unknown synced type -> " + fieldName + " of " + fieldValue.GetType().Name);
-            return;
-        }
+    public virtual void handleClientOwnerChange(string oldOwnerID, string newOwnerID) {
 
-        message.fieldName = fieldName;
-        WorkerServerManager.instance.sendMessageToAll(message);
+    }
+    public virtual void handleServerOwnerChange(string oldOwnerID, string newOwnerID) {
 
-        QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Sending sync of value(" + fieldName + "=" + fieldValue + ")");
+    }
+    public virtual void handleOwnerChange(string oldOwnerID, string newOwnerID) {
+
     }
 
-    public void setSyncedField(string fieldName, object fieldValue) {
-        GetType().UnderlyingSystemType.GetField(fieldName).SetValue(fieldName, fieldValue);
-
-        QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Syncing value(" + fieldName + "=" + fieldValue + ")");
+    public void handleServerSync() {
+        serverComponent.syncFields();
     }
 }
