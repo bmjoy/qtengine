@@ -17,6 +17,7 @@ public class WebServer {
     public WebServer(MasterServerManager _manager) {
         manager = _manager;
         loadHTML();
+        //setupWebServer();
     }
 
     public void loadHTML() {
