@@ -3,12 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorkerServerPlayerManager {
+public class WorkerServerPlayerManager : MonoBehaviour {
 
     public Dictionary<string, ServerQTObject> players;
 
-    public WorkerServerPlayerManager() {
+    void Awake() {
+        WorkerServerManager.instance.onServerSceneLoad += spawnRoomObjects;
+    }
+
+    void Start() {
         players = new Dictionary<string, ServerQTObject>();
+
+        WorkerServerManager.instance.onClientReady += spawnPlayer;
+        WorkerServerManager.instance.onClientDisconnected += despawnPlayer;
     }
 
     public void spawnPlayer(ServerQTClient client) {
@@ -28,5 +35,11 @@ public class WorkerServerPlayerManager {
         WorkerServerManager.instance.spawnManager.despawnObject(obj.objectID);
 
         players.Remove(client.session.id);
+    }
+
+    public void spawnRoomObjects() {
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Spawning objects for room...");
+
+        ServerQTObject obj = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "HealthSpawner", QTUtils.getSyncMessage(30f, 1f, 4f));
     }
 }

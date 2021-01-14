@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class SamplePlayer : BaseQTObjectComponent {
 
+    public SamplePlayerUI playerUI;
     public Camera playerCamera;
+
     public Transform playerBody;
     public CharacterController controller;
     public Transform playerGround;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
+    //Server variables
     private float xRotation = 0f;
     private Vector3 velocity;
 
@@ -20,36 +23,33 @@ public class SamplePlayer : BaseQTObjectComponent {
     private float jumpHeight = 3f;
     private bool isGrounded;
 
-    void Start() {
-        handleClientStart();
-    }
+    //Variables
+    [QTSynced]
+    public float maxHealth = 100f;
 
-    void Update() {
-        handleServerLogic();
-    }
+    [QTSynced]
+    public float health = 100f;
 
-    public override void handleObjectSpawn() {
+    public override void handleClientObjectSpawn() {
         handleOwnerChange("", "");
-
-        if (obj.objectType != BaseQTObject.type.CLIENT) { return; }
-        obj.onOwnerChanged += handleOwnerChange;
     }
 
-    public void handleOwnerChange(string oldOwnerID, string newOwnerID) {
-        if (ClientManager.instance.workerClient != null && ClientManager.instance.workerClient.session != null) {
-            playerCamera.gameObject.SetActive(obj.ownerID == ClientManager.instance.workerClient.session.id);
-        } else {
-            playerCamera.gameObject.SetActive(false);
+    public override void handleServerObjectSpawn() {
+        playerCamera.gameObject.SetActive(false);
+        playerUI.gameObject.SetActive(false);
+    }
+
+    public override void handleClientOwnerChange(string oldOwnerID, string newOwnerID) {
+        bool active = clientComponent.isOwner();
+
+        playerCamera.gameObject.SetActive(active);
+        playerUI.gameObject.SetActive(active);
+        if(active) {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
-    public void handleClientStart() {
-        if (obj.objectType != BaseQTObject.type.CLIENT) { return; }
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    public void handleServerLogic() {
-        if (obj.objectType != BaseQTObject.type.SERVER) { return; }
+    public override void handleServerUpdate() {
         WorkerServerQTClient qtRemoteClient = (WorkerServerQTClient)WorkerServerManager.instance.connections.clients.Find(c => c.session.id == obj.ownerID);
 
         if (qtRemoteClient != null) {
@@ -90,5 +90,10 @@ public class SamplePlayer : BaseQTObjectComponent {
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
         }
+    }
+
+    public override void handleClientUpdate() {
+        playerUI.healthSlider.value = health / maxHealth;
+        playerUI.healthText.text = health.ToString();
     }
 }
