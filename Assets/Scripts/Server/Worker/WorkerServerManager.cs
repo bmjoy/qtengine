@@ -13,8 +13,11 @@ public class WorkerServerManager : BaseServerManager {
 
     public static WorkerServerManager instance { get; protected set; }
 
-    public WorkerServerPlayerManager playerManager;
     public WorkerServerSpawnManager spawnManager;
+
+    public Action<int> onServerStart;
+    public Action onServerSceneLoad;
+    public Action<WorkerServerQTClient> onClientReady;
 
     void Awake() {
         onStart += handleStart;
@@ -22,6 +25,10 @@ public class WorkerServerManager : BaseServerManager {
         onUpdate += handleUpdate;
         onApplicationExit += handleApplicationQuit;
         onApplicationExit += handleWorkerApplicationQuit;
+        onServerStart += handleServerStart;
+        onServerSceneLoad += handleSceneLoaded;
+
+        SceneManager.sceneLoaded += onSceneLoaded;
 
         instance = this;
     }
@@ -29,9 +36,6 @@ public class WorkerServerManager : BaseServerManager {
     public void handleWorkerStart() {
         connections = new WorkerServerConnectionsManager(this);
         spawnManager = new WorkerServerSpawnManager();
-        playerManager = new WorkerServerPlayerManager();
-
-        onClientDisconnected += playerManager.despawnPlayer;
 
         WorkerHelper.instance.checkStart();
     }
@@ -42,10 +46,23 @@ public class WorkerServerManager : BaseServerManager {
 
     public override void setupServer(int port) {
         setupTCPServer(port);
-
-        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Started worker server on port " + port + "...");
         state = componentState.RUNNING;
 
         SceneManager.LoadScene(ServerSettings.instance.serverScene, LoadSceneMode.Single);
+        onServerStart(port);
+    }
+
+    public void onSceneLoaded(Scene scene, LoadSceneMode mode) {
+        if (scene.name == ServerSettings.instance.serverScene) {
+            onServerSceneLoad();
+        }
+    }
+
+    public void handleServerStart(int port) {
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Started worker server on port " + port + "...");
+    }
+
+    public void handleSceneLoaded() {
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Loaded the server's scene...");
     }
 }

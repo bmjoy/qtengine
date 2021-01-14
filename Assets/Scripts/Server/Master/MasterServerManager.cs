@@ -33,11 +33,14 @@ public class MasterServerManager : BaseServerManager {
     }
 
     public void handleMasterApplicationQuit() {
-        foreach(MasterServerWorker worker in workersManager.workers.Values) {
+        foreach (MasterServerWorker worker in workersManager.workers.Values) {
             worker.stop();
         }
 
-        webServer.server.Stop();
+        if (webServer.server != null) {
+            webServer.server.Stop();
+        }
+
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Closing master server...");
     }
 

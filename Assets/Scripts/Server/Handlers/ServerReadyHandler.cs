@@ -23,7 +23,7 @@ public class ServerReadyHandler : BaseMessageHandler {
                     qtRemoteClient.sendMessage(sessionMessage);
 
                     QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Client(" + client.getIP() + ") is ready...");
-                    WorkerServerManager.instance.playerManager.spawnPlayer(qtRemoteClient);
+                    WorkerServerManager.instance.onClientReady(qtRemoteClient);
                 } else {
                     qtRemoteClient.ready = readyMessage.state;
                 }
