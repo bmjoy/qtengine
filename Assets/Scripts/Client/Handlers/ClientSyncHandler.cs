@@ -36,25 +36,25 @@ public class ClientSyncHandler : BaseMessageHandler {
                 switch (syncMessage.syncedValueType) {
                     case SyncFieldMessage.syncType.INT: {
                         SyncIntMessage syncMessageDetailed = (SyncIntMessage)message;
-                        component.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
                         break;
                     }
 
                     case SyncFieldMessage.syncType.FLOAT: {
                         SyncFloatMessage syncMessageDetailed = (SyncFloatMessage)message;
-                        component.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
                         break;
                     }
 
                     case SyncFieldMessage.syncType.BOOL: {
                         SyncBoolMessage syncMessageDetailed = (SyncBoolMessage)message;
-                        component.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
                         break;
                     }
 
                     case SyncFieldMessage.syncType.STRING: {
                         SyncStringMessage syncMessageDetailed = (SyncStringMessage)message;
-                        component.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
                         break;
                     }
                 }

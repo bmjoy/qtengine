@@ -29,7 +29,7 @@ public class SyncGameobject : BaseQTObjectComponent {
     }
 
     #region Server Part
-    public void handleServerObjectSpawn() {
+    public override void handleServerObjectSpawn() {
         if (obj.objectType != BaseQTObject.type.SERVER) { return; }
         InvokeRepeating("sync", 0f, ServerSettings.instance.syncRate);
     }
@@ -70,7 +70,7 @@ public class SyncGameobject : BaseQTObjectComponent {
     #endregion
 
     #region Client Part
-    public void handleClientObjectSpawn() {
+    public override void handleClientObjectSpawn() {
         if (obj.objectType != BaseQTObject.type.CLIENT) { return; }
         syncedPosition = gameObject.transform.position;
         syncedRotation = gameObject.transform.rotation.eulerAngles;
