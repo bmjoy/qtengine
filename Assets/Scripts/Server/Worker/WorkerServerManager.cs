@@ -20,8 +20,8 @@ public class WorkerServerManager : BaseServerManager {
         onStart += handleStart;
         onStart += handleWorkerStart;
         onUpdate += handleUpdate;
-        onApplicationQuit += handleApplicationQuit;
-        onApplicationQuit += handleWorkerApplicationQuit;
+        onApplicationExit += handleApplicationQuit;
+        onApplicationExit += handleWorkerApplicationQuit;
 
         instance = this;
     }
@@ -32,8 +32,6 @@ public class WorkerServerManager : BaseServerManager {
         playerManager = new WorkerServerPlayerManager();
 
         onClientDisconnected += playerManager.despawnPlayer;
-        onClientDisconnected += connections.handleClientDisconnect;
-        onClientConnected += connections.handleClientConnect;
 
         WorkerHelper.instance.checkStart();
     }

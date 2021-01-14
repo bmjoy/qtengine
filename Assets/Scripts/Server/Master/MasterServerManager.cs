@@ -19,8 +19,8 @@ public class MasterServerManager : BaseServerManager {
         onStart += handleStart;
         onStart += handleMasterStart;
         onUpdate += handleUpdate;
-        onApplicationQuit += handleApplicationQuit;
-        onApplicationQuit += handleMasterApplicationQuit;
+        onApplicationExit += handleApplicationQuit;
+        onApplicationExit += handleMasterApplicationQuit;
 
         instance = this;
     }
@@ -30,9 +30,6 @@ public class MasterServerManager : BaseServerManager {
 
         webServer = new WebServer(this);
         workersManager = new MasterServerWorkersManager();
-
-        onClientDisconnected += connections.handleClientDisconnect;
-        onClientConnected += connections.handleClientConnect;
     }
 
     public void handleMasterApplicationQuit() {

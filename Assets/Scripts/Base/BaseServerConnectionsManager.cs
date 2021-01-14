@@ -23,6 +23,8 @@ public abstract class BaseServerConnectionsManager {
 
         clients = new List<ServerQTClient>();
 
+        manager.onClientConnected += handleClientConnect;
+        manager.onClientDisconnected += handleClientDisconnect;
         manager.onClientConnected += debugNewConnection;
         manager.onClientDisconnected += debugLostConnection;
 
@@ -53,7 +55,6 @@ public abstract class BaseServerConnectionsManager {
     }
 
     public void handleClientDisconnect(ServerQTClient client) {
-        client.client.Close();
         clients.Remove(client);
     }
 
