@@ -18,17 +18,14 @@ public abstract class BaseSpawnManager {
         spawnedObjects.Add(obj.objectID, obj);
 
         BaseQTObjectComponent[] objectComponents = obj.GetComponentsInChildren<BaseQTObjectComponent>(true);
-        foreach(BaseQTObjectComponent comp in objectComponents) {
+        for (int i = 0; i < objectComponents.Length; i++) {
+            BaseQTObjectComponent comp = objectComponents[i];
+
             comp.obj = obj;
+            comp.index = i;
             comp.handleSpawn();
-        }
 
-        SyncGameobject[] syncedComponents = obj.GetComponentsInChildren<SyncGameobject>(true);
-        for(int i = 0; i < syncedComponents.Length; i++) {
-            SyncGameobject syncComponent = syncedComponents[i];
-
-            obj.objectComponents[i] = syncComponent;
-            syncComponent.index = i;
+            obj.objectComponents.Add(i, comp);
         }
     }
 

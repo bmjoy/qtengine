@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SyncGameobject : BaseQTObjectComponent {
 
-    /* Client/Server */
-    [HideInInspector]
-    public int index;
-
     /* Server */
     public bool syncPosition, syncRotation;
     public bool useInterpolation = false;
