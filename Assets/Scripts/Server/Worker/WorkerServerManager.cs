@@ -65,4 +65,13 @@ public class WorkerServerManager : BaseServerManager {
     public void handleSceneLoaded() {
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Loaded the server's scene...");
     }
+
+    public void sendMessageToAllReady(QTMessage message) {
+        foreach (ServerQTClient qtRemoteClient in connections.clients.ToList()) {
+            WorkerServerQTClient workerClient = (WorkerServerQTClient)qtRemoteClient;
+            if (workerClient.ready) {
+                qtRemoteClient.sendMessage(message);
+            }
+        }
+    }
 }

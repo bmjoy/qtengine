@@ -21,7 +21,7 @@ public class WorkerServerSpawnManager : BaseSpawnManager {
         message.objectID = spawnedObj.objectID;
         message.prefabName = prefabName;
         message.spawnPosition = spawnPosition;
-        WorkerServerManager.instance.sendMessageToAll(message);
+        WorkerServerManager.instance.sendMessageToAllReady(message);
 
         return spawnedObj;
     }
@@ -31,7 +31,7 @@ public class WorkerServerSpawnManager : BaseSpawnManager {
 
         DespawnMessage message = new DespawnMessage();
         message.objectID = despawnedObj.objectID;
-        WorkerServerManager.instance.sendMessageToAll(message);
+        WorkerServerManager.instance.sendMessageToAllReady(message);
 
         QTUtils.despawnGameobject(despawnedObj.gameObject);
         processDespawn(objectID);

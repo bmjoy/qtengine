@@ -54,7 +54,7 @@ public class SyncGameobject : BaseQTObjectComponent {
         message.posY = gameObject.transform.position.y;
         message.posZ = gameObject.transform.position.z;
         message.index = index;
-        WorkerServerManager.instance.sendMessageToAll(message);
+        WorkerServerManager.instance.sendMessageToAllReady(message);
     }
 
     public void emitRotationSync() {
@@ -65,7 +65,7 @@ public class SyncGameobject : BaseQTObjectComponent {
         message.rotY = gameObject.transform.rotation.eulerAngles.y;
         message.rotZ = gameObject.transform.rotation.eulerAngles.z;
         message.index = index;
-        WorkerServerManager.instance.sendMessageToAll(message);
+        WorkerServerManager.instance.sendMessageToAllReady(message);
     }
     #endregion
 
