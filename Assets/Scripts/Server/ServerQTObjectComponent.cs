@@ -24,12 +24,18 @@ public class ServerQTObjectComponent {
                 lastFields.Add(fi.Name, latestValue);
             } else if (lastFields[fi.Name].Equals(latestValue) == false) {
                 lastFields[fi.Name] = latestValue;
+
                 onSyncedFieldChanged(fi.Name, lastFields[fi.Name]);
             }
         }
     }
 
     public void onSyncedFieldChanged(string fieldName, object fieldValue) {
+        if (fieldValue == null) {
+            QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Setting to null -> " + fieldName);
+            return;
+        }
+
         SyncFieldMessage message = new SyncFieldMessage();
         if (fieldValue.GetType() == typeof(int)) {
             message = new SyncIntMessage();
