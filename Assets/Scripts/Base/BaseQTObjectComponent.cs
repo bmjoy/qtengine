@@ -23,6 +23,36 @@ public abstract class BaseQTObjectComponent : MonoBehaviour {
         handleUpdate();
     }
 
+    void OnTriggerEnter(Collider other) {
+        if (obj.objectType == BaseQTObject.type.SERVER) {
+            handleServerTriggerEnter(other);
+        } else {
+            handleClientTriggerEnter(other);
+        }
+
+        handleTriggerEnter(other);
+    }
+
+    void OnTriggerExit(Collider other) {
+        if (obj.objectType == BaseQTObject.type.SERVER) {
+            handleServerTriggerExit(other);
+        } else {
+            handleClientTriggerExit(other);
+        }
+
+        handleTriggerExit(other);
+    }
+
+    void OnTriggerStay(Collider other) {
+        if (obj.objectType == BaseQTObject.type.SERVER) {
+            handleServerTriggerStay(other);
+        } else {
+            handleClientTriggerStay(other);
+        }
+
+        handleTriggerStay(other);
+    }
+
     public void handleSpawn() {
         if (obj.objectType == BaseQTObject.type.SERVER) {
             serverComponent = new ServerQTObjectComponent(this);
@@ -69,6 +99,36 @@ public abstract class BaseQTObjectComponent : MonoBehaviour {
 
     }
     public virtual void handleOwnerChange(string oldOwnerID, string newOwnerID) {
+
+    }
+
+    public virtual void handleClientTriggerEnter(Collider other) {
+
+    }
+    public virtual void handleServerTriggerEnter(Collider other) {
+
+    }
+    public virtual void handleTriggerEnter(Collider other) {
+
+    }
+
+    public virtual void handleClientTriggerExit(Collider other) {
+
+    }
+    public virtual void handleServerTriggerExit(Collider other) {
+
+    }
+    public virtual void handleTriggerExit(Collider other) {
+
+    }
+
+    public virtual void handleClientTriggerStay(Collider other) {
+
+    }
+    public virtual void handleServerTriggerStay(Collider other) {
+
+    }
+    public virtual void handleTriggerStay(Collider other) {
 
     }
 
