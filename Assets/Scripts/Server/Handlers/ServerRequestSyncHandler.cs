@@ -18,8 +18,11 @@ public class ServerRequestSyncHandler : BaseMessageHandler {
                     spawnMessage.objectID = obj.objectID;
                     spawnMessage.prefabName = obj.prefabName;
                     spawnMessage.spawnPosition = QTUtils.getSyncMessageFromObject(obj);
-
                     qtRemoteClient.sendMessage(spawnMessage);
+
+                    foreach(BaseQTObjectComponent comp in obj.objectComponents.Values) {
+                        comp.serverComponent.syncAllFields();
+                    }
                 }
                 break;
         }

@@ -21,9 +21,10 @@ using ProtoBuf;
 [ProtoInclude(15, typeof(WorkerInfoMessage))]
 [ProtoInclude(16, typeof(WorkerDebugMessage))]
 [ProtoInclude(17, typeof(SyncFieldMessage))]
+[ProtoInclude(18, typeof(CallFunctionMessage))]
 public abstract class QTMessage {
 
-    public enum type { EVENT, SYNC, HEARTBEAT, REQUEST_HEARTBEAT, INPUT, SPAWN, READY, REQUEST_SYNC, OWNER, SESSION, DESPAWN, INPUT_AXIS, REQUEST_ROOMS, ROOMS, WORKER_INFO, WORKER_DEBUG, SYNC_FIELD }
+    public enum type { EVENT, SYNC, HEARTBEAT, REQUEST_HEARTBEAT, INPUT, SPAWN, READY, REQUEST_SYNC, OWNER, SESSION, DESPAWN, INPUT_AXIS, REQUEST_ROOMS, ROOMS, WORKER_INFO, WORKER_DEBUG, SYNC_FIELD, CALL_FUNCTION }
 
     [ProtoMember(1001)]
     public type messageType;

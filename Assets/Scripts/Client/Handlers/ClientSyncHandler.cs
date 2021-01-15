@@ -70,6 +70,18 @@ public class ClientSyncHandler : BaseMessageHandler {
                 break;
             }
 
+
+            case QTMessage.type.CALL_FUNCTION: {
+                    CallFunctionMessage callMessage = (CallFunctionMessage)message;
+                    if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(callMessage.objectID) == false) {
+                        return;
+                    }
+
+                    ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[callMessage.objectID];
+                    BaseQTObjectComponent component = clientObject.objectComponents[callMessage.index];
+                    component.callFunction(callMessage.functionName);
+                    break;
+                }
         }
     }
 }
