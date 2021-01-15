@@ -40,12 +40,16 @@ public abstract class BaseQTClient {
     }
 
     public void processQueue() {
-        List<QTMessage> queue = queuedMessages.ToList();
-        lock (queue) {
+        try {
+            if(queuedMessages.Count < 1) { return; }
+
+            List<QTMessage> queue = queuedMessages.ToList();
             foreach (QTMessage message in queue) {
                 onMessageRecieved(message);
                 queuedMessages.Remove(message);
             }
+        } catch {
+
         }
     }
 

@@ -41,6 +41,13 @@ public abstract class BaseSpawnManager {
     }
 
     public void processDespawn(string objectID) {
+        BaseQTObject obj = spawnedObjects[objectID];
+        foreach(BaseQTObjectComponent comp in obj.objectComponents.Values) {
+            comp.CancelInvoke();
+        }
+        obj.CancelInvoke();
+
+        QTUtils.despawnGameobject(obj.gameObject);
         spawnedObjects.Remove(objectID);
     }
 }

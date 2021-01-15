@@ -23,6 +23,8 @@ public class WorkerServerSpawnManager : BaseSpawnManager {
         message.spawnPosition = spawnPosition;
         WorkerServerManager.instance.sendMessageToAllReady(message);
 
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Spawned " + prefabName + " with ID - " + objectID);
+
         return spawnedObj;
     }
 
@@ -33,7 +35,7 @@ public class WorkerServerSpawnManager : BaseSpawnManager {
         message.objectID = despawnedObj.objectID;
         WorkerServerManager.instance.sendMessageToAllReady(message);
 
-        QTUtils.despawnGameobject(despawnedObj.gameObject);
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Despawned " + despawnedObj.prefabName + " with ID - " + objectID);
         processDespawn(objectID);
     }
 }

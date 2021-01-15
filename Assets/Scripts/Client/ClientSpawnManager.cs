@@ -16,11 +16,13 @@ public class ClientSpawnManager : BaseSpawnManager {
         spawnedObj.prefabName = prefabName;
         processSpawn(spawnedObj);
 
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Spawned " + prefabName + " with ID - " + objectID);
+
         return spawnedObj;
     }
 
     public override void despawnObject(string objectID) {
-        QTUtils.despawnGameobject(spawnedObjects[objectID].gameObject);
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Despawned " + spawnedObjects[objectID].prefabName + " with ID - " + objectID);
         processDespawn(objectID);
     }
 }
