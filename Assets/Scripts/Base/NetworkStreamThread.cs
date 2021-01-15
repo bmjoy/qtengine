@@ -36,6 +36,7 @@ public class NetworkStreamThread {
             } catch {
                 QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK,"[" + qtClient.type.ToString() + "_thread] Error while reading the NetworkStream-");
                 qtClient.closeConnection();
+                break;
             }
         }
     }
