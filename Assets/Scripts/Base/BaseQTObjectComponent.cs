@@ -9,6 +9,8 @@ public abstract class BaseQTObjectComponent : MonoBehaviour {
 
     [HideInInspector]
     public BaseQTObject obj;
+    [HideInInspector]
+    public int index;
 
     public ClientQTObjectComponent clientComponent;
     public ServerQTObjectComponent serverComponent;
@@ -134,5 +136,14 @@ public abstract class BaseQTObjectComponent : MonoBehaviour {
 
     public void handleServerSync() {
         serverComponent.syncFields();
+    }
+
+    public void callFunction(string functionName) {
+        foreach (MethodInfo mi in GetType().UnderlyingSystemType.GetMethods().Where(mi => mi.Name == functionName)) {
+            QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Calling function - " + functionName);
+
+            object[] parameters = { };
+            mi.Invoke(this, parameters);
+        }
     }
 }
