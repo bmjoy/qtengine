@@ -10,5 +10,4 @@ public class SampleAreaDamage : BaseQTObjectComponent {
             player.health = Mathf.Clamp(player.health - Time.deltaTime * 8f, 0, player.maxHealth);
         }
     }
-
 }

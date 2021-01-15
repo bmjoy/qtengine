@@ -7,10 +7,6 @@ public class WorkerServerPlayerManager : MonoBehaviour {
 
     public Dictionary<string, ServerQTObject> players;
 
-    void Awake() {
-        WorkerServerManager.instance.onServerSceneLoad += spawnRoomObjects;
-    }
-
     void Start() {
         players = new Dictionary<string, ServerQTObject>();
 
@@ -35,12 +31,5 @@ public class WorkerServerPlayerManager : MonoBehaviour {
         WorkerServerManager.instance.spawnManager.despawnObject(obj.objectID);
 
         players.Remove(client.session.id);
-    }
-
-    public void spawnRoomObjects() {
-        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Spawning objects for room...");
-
-        ServerQTObject obj = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "HealthSpawner", QTUtils.getSyncMessage(30f, 1f, 4f));
-        ServerQTObject obj2 = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "AreaDamage", QTUtils.getSyncMessage(-5f, 2f, -13f));
     }
 }
