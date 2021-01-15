@@ -12,6 +12,10 @@ public class ClientSyncHandler : BaseMessageHandler {
         switch(message.messageType) {
             case QTMessage.type.SYNC: {
                 SyncMessage syncMessage = (SyncMessage)message;
+                if(ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
+                    return;
+                }
+
                 ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
                 SyncGameobject syncComponent = (SyncGameobject)clientObject.objectComponents[syncMessage.index];
 
@@ -30,6 +34,10 @@ public class ClientSyncHandler : BaseMessageHandler {
 
             case QTMessage.type.SYNC_FIELD: {
                 SyncFieldMessage syncMessage = (SyncFieldMessage)message;
+                if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
+                    return;
+                }
+
                 ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
                 BaseQTObjectComponent component = clientObject.objectComponents[syncMessage.index];
 
