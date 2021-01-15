@@ -28,6 +28,10 @@
 [x] Syncing client input (configurable keys)
 <br />
 [x] Syncing client axis (configurable axises)
+<br />
+[x] Syncing function calls
+<br />
+[-] Syncing function calls with arguments
 </div>
 <br />
 <b>Syncing components:</b>
