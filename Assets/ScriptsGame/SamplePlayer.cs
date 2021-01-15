@@ -94,6 +94,6 @@ public class SamplePlayer : BaseQTObjectComponent {
 
     public override void handleClientUpdate() {
         playerUI.healthSlider.value = health / maxHealth;
-        playerUI.healthText.text = health.ToString();
+        playerUI.healthText.text = Mathf.Round(health).ToString();
     }
 }
