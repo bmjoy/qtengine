@@ -13,17 +13,25 @@
 </div>
 [x] Multiple rooms using multiple server workers
 <br />
+[x] Custom components and client/server separated logic
+<br />
+[x] Easily synchronizable just by adding attributes
+<br />
 <div>
 <br />
 <b>Syncing progress:</b>
 <div>
 [x] Syncing primitives (int, float, bool, string, ...)
 <br />
+[-] Syncing arrays
+<br />
 [x] Syncing spawning objects
 <br />
 [x] Syncing despawning objects
 <br />
 [x] Syncing position/rotation (with linear interpolation)
+<br />
+[-] Syncing scale
 <br />
 [x] Syncing client input (configurable keys)
 <br />
@@ -39,6 +47,10 @@
 [x] SyncGameobject - synchronizes position and rotation of object
 <br />
 [x] SyncAnimation - synchronizes animation parameters of object
+<br />
+[-] SyncAudio - synchronizes volume, play states of object
+<br />
+[-] SyncVideo - synchronizes volume, play states of object
 <br />
 </div>
 </div>
