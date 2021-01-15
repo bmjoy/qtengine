@@ -15,7 +15,7 @@ public class MasterServerWorker {
     public void start() {
         process = new Process();
         process.StartInfo.FileName = "C:\\Users\\LamkasDev\\Downloads\\qtEngine-builds\\qtEngine.exe";
-        process.StartInfo.Arguments = "-logFile C:\\Users\\LamkasDev\\Downloads\\qtEngine-logs\\worker_" + room.port + ".log -port " + room.port;
+        process.StartInfo.Arguments = "-logFile C:\\Users\\LamkasDev\\Downloads\\qtEngine-logs\\worker_" + room.port + ".log -roomID " + room.id + " -port " + room.port;
         process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
         process.Start();
     }

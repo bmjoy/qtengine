@@ -13,6 +13,7 @@ public class WorkerServerManager : BaseServerManager {
 
     public static WorkerServerManager instance { get; protected set; }
 
+    public RoomInfo room;
     public WorkerServerSpawnManager spawnManager;
 
     public Action<int> onServerStart;
@@ -55,6 +56,13 @@ public class WorkerServerManager : BaseServerManager {
     public void onSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (state == componentState.RUNNING && scene.name == ServerSettings.instance.serverScene) {
             onServerSceneLoad();
+
+            WorkerServerConnectionsManager workerConnection = (WorkerServerConnectionsManager)connections;
+            WorkerReadyMessage readyMessage = new WorkerReadyMessage();
+            readyMessage.id = room.id;
+            workerConnection.masterClient.sendMessage(readyMessage);
+
+            QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Sending worker ready message...");
         }
     }
 

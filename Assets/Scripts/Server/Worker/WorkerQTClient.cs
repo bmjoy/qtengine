@@ -11,16 +11,11 @@ public class WorkerQTClient : BaseQTClient {
 
     public BaseServerManager manager;
 
-    public WorkerQTClient(BaseServerManager _manager, TcpClient _client) : base(_client, clientType.WORKER_SERVER) {
+    public WorkerQTClient(BaseServerManager _manager, TcpClient _client) : base(_client, clientType.CLIENT) {
         manager = _manager;
         eventHandler = new ClientEventHandler(this);
 
         onMessageRecieved += handleMessage;
-
-        WorkerInfoMessage message = new WorkerInfoMessage();
-        message.id = "1";
-        message.ip = "127.0.0.1";
-        sendMessage(message);
     }
 
     public void handleMessage(QTMessage message) {
@@ -32,6 +27,18 @@ public class WorkerQTClient : BaseQTClient {
                 heartbeatMessage.createdTimestamp = currentTimestamp;
 
                 sendMessage(heartbeatMessage);
+                break;
+
+            case QTMessage.type.ROOM_INFO:
+                RoomInfoMessage infoMessage = (RoomInfoMessage)message;
+                WorkerServerManager.instance.room = infoMessage.room;
+
+                WorkerInfoMessage workerMessage = new WorkerInfoMessage();
+                workerMessage.id = WorkerServerManager.instance.room.id;
+                workerMessage.ip = "127.0.0.1";
+                sendMessage(workerMessage);
+
+                QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Sending worker info message...");
                 break;
         }
     }

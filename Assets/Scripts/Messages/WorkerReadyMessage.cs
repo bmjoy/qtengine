@@ -4,15 +4,12 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-public class WorkerInfoMessage : QTMessage {
+public class WorkerReadyMessage : QTMessage {
 
     [ProtoMember(2001)]
     public string id;
 
-    [ProtoMember(2002)]
-    public string ip;
-
-    public WorkerInfoMessage() {
-        messageType = type.WORKER_INFO;
+    public WorkerReadyMessage() {
+        messageType = type.WORKER_READY;
     }
 }
