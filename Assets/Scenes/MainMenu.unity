@@ -1087,6 +1087,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 150897793302631906, guid: 039e1356b24dbb849a35c8c7d4c59732, type: 3}
   - {fileID: 5768506167209803662, guid: 594b35e269a79c84b9aabc56aa9b3302, type: 3}
+  - {fileID: 5273144662142109841, guid: e8fcda017f66fac45b7323d0a2fbec52, type: 3}
 --- !u!114 &615930769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,7 +1361,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  playerManager: {fileID: 0}
 --- !u!1 &867705209
 GameObject:
   m_ObjectHideFlags: 0
