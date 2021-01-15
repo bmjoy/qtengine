@@ -36,6 +36,9 @@
 <br />
 <b>Syncing components:</b>
 <div>
-None
+[x] SyncGameobject - synchronizes position and rotation of object
+<br />
+[x] SyncAnimation - synchronizes animation parameters of object
+<br />
 </div>
 </div>
