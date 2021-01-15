@@ -54,6 +54,8 @@ public abstract class BaseQTClient {
     }
 
     public void sendMessage(QTMessage message) {
+        if (client.Connected == false) { return; }
+
         byte[] bytes = QTUtils.MessageToByteArray(message);
         byte[] sizeBytes = BitConverter.GetBytes(bytes.Length);
 

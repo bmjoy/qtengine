@@ -53,7 +53,7 @@ public class WorkerServerManager : BaseServerManager {
     }
 
     public void onSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (scene.name == ServerSettings.instance.serverScene) {
+        if (state == componentState.RUNNING && scene.name == ServerSettings.instance.serverScene) {
             onServerSceneLoad();
         }
     }
