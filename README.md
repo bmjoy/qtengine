@@ -31,7 +31,7 @@
 <br />
 [x] Syncing function calls
 <br />
-[-] Syncing function calls with arguments
+[x] Syncing function calls with arguments
 </div>
 <br />
 <b>Syncing components:</b>
