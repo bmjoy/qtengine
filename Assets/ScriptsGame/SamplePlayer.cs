@@ -6,10 +6,12 @@ public class SamplePlayer : BaseQTObjectComponent {
 
     public SamplePlayerUI playerUI;
     public Camera playerCamera;
+    public Animator playerAnimator;
 
     public Transform playerBody;
     public CharacterController controller;
     public Transform playerGround;
+
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
@@ -26,7 +28,6 @@ public class SamplePlayer : BaseQTObjectComponent {
     //Variables
     [QTSynced]
     public float maxHealth = 100f;
-
     [QTSynced]
     public float health = 100f;
 
@@ -89,6 +90,9 @@ public class SamplePlayer : BaseQTObjectComponent {
 
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+
+            //Animation
+            playerAnimator.SetFloat("forward", moveZ);
         }
     }
 

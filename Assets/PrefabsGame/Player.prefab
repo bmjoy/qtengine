@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4216263016276608448}
+  - component: {fileID: 586229700060401449}
   - component: {fileID: -3057564818204288331}
+  - component: {fileID: 5365275751007873495}
   - component: {fileID: 8721621867890553228}
   - component: {fileID: 1276713332748456820}
   m_Layer: 6
@@ -37,6 +39,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &586229700060401449
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150897793302631906}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9cea31658bca91642b02d94dc29870a3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-3057564818204288331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +79,22 @@ MonoBehaviour:
   lastRotation: {x: 0, y: 0, z: 0}
   syncedPosition: {x: 0, y: 0, z: 0}
   syncedRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &5365275751007873495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150897793302631906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ac966fd3b4b174e85edc88cc2bbc6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  index: 0
+  animator: {fileID: 586229700060401449}
+  syncParameters: 1
 --- !u!114 &8721621867890553228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,8 +108,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 0}
+  index: 0
   playerUI: {fileID: 906072837473393457}
   playerCamera: {fileID: 755034474699011996}
+  playerAnimator: {fileID: 586229700060401449}
   playerBody: {fileID: 4216263016276608448}
   controller: {fileID: 1276713332748456820}
   playerGround: {fileID: 7377828967478026010}
