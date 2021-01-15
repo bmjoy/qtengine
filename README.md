@@ -17,6 +17,12 @@
 <br />
 [x] Easily synchronizable just by adding attributes
 <br />
+[x] Very low packet sizes (almost same as source objects) using protobuf-net allowing thousand of updates per second 
+<br />
+[-] Web interface to interact with the server
+<br />
+[-] Easy to use database using Redis
+<br />
 <div>
 <br />
 <b>Syncing progress:</b>
