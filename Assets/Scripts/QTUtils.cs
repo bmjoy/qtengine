@@ -126,24 +126,24 @@ public class QTUtils : MonoBehaviour {
         return cmdArgs;
     }
 
-    public static SyncFieldMessage getSyncFieldMessage(string fieldName, object fieldValue) {
-        SyncFieldMessage message = new SyncFieldMessage();
+    public static FieldInfoMessage getSyncFieldMessage(string fieldName, object fieldValue) {
+        FieldInfoMessage message = new FieldInfoMessage();
         if (fieldValue.GetType() == typeof(int)) {
-            message = new SyncIntMessage();
-            ((SyncIntMessage)message).value = (int)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.INT;
+            message = new FieldInfoIntMessage();
+            ((FieldInfoIntMessage)message).value = (int)fieldValue;
+            message.syncedValueType = FieldInfoMessage.syncType.INT;
         } else if (fieldValue.GetType() == typeof(float)) {
-            message = new SyncFloatMessage();
-            ((SyncFloatMessage)message).value = (float)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.FLOAT;
+            message = new FieldInfoFloatMessage();
+            ((FieldInfoFloatMessage)message).value = (float)fieldValue;
+            message.syncedValueType = FieldInfoMessage.syncType.FLOAT;
         } else if (fieldValue.GetType() == typeof(bool)) {
-            message = new SyncBoolMessage();
-            ((SyncBoolMessage)message).value = (bool)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.BOOL;
+            message = new FieldInfoBoolMessage();
+            ((FieldInfoBoolMessage)message).value = (bool)fieldValue;
+            message.syncedValueType = FieldInfoMessage.syncType.BOOL;
         } else if (fieldValue.GetType() == typeof(string)) {
-            message = new SyncStringMessage();
-            ((SyncStringMessage)message).value = (string)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.STRING;
+            message = new FieldInfoStringMessage();
+            ((FieldInfoStringMessage)message).value = (string)fieldValue;
+            message.syncedValueType = FieldInfoMessage.syncType.STRING;
         } else {
             QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Unknown synced type -> " + fieldName + " of " + fieldValue.GetType().Name);
             return null;
@@ -153,31 +153,92 @@ public class QTUtils : MonoBehaviour {
         return message;
     }
 
-   public static object getValueFromSyncFieldMessage(SyncFieldMessage message) {
+   public static object getValueFromSyncFieldMessage(FieldInfoMessage message) {
         switch (message.syncedValueType) {
-            case SyncFieldMessage.syncType.INT: {
-                SyncIntMessage syncMessageDetailed = (SyncIntMessage)message;
+            case FieldInfoMessage.syncType.INT: {
+                FieldInfoIntMessage syncMessageDetailed = (FieldInfoIntMessage)message;
                 return syncMessageDetailed.value;
             }
 
-            case SyncFieldMessage.syncType.FLOAT: {
-                SyncFloatMessage syncMessageDetailed = (SyncFloatMessage)message;
+            case FieldInfoMessage.syncType.FLOAT: {
+                FieldInfoFloatMessage syncMessageDetailed = (FieldInfoFloatMessage)message;
                 return syncMessageDetailed.value;
             }
 
-            case SyncFieldMessage.syncType.BOOL: {
-                SyncBoolMessage syncMessageDetailed = (SyncBoolMessage)message;
+            case FieldInfoMessage.syncType.BOOL: {
+                FieldInfoBoolMessage syncMessageDetailed = (FieldInfoBoolMessage)message;
                 return syncMessageDetailed.value;
             }
 
-            case SyncFieldMessage.syncType.STRING: {
-                SyncStringMessage syncMessageDetailed = (SyncStringMessage)message;
+            case FieldInfoMessage.syncType.STRING: {
+                FieldInfoStringMessage syncMessageDetailed = (FieldInfoStringMessage)message;
                 return syncMessageDetailed.value;
             }
 
             default: {
                 return null;
             }
+        }
+   }
+
+    public static AnimationParameterInfoMessage getSyncAnimationMessage(string fieldName, object fieldValue) {
+        AnimationParameterInfoMessage message = new AnimationParameterInfoMessage();
+        if (fieldValue.GetType() == typeof(int)) {
+            message = new AnimationParameterInfoIntMessage();
+            ((AnimationParameterInfoIntMessage)message).value = (int)fieldValue;
+            message.syncedValueType = AnimationParameterInfoMessage.syncType.INT;
+        } else if (fieldValue.GetType() == typeof(float)) {
+            message = new AnimationParameterInfoFloatMessage();
+            ((AnimationParameterInfoFloatMessage)message).value = (float)fieldValue;
+            message.syncedValueType = AnimationParameterInfoMessage.syncType.FLOAT;
+        } else if (fieldValue.GetType() == typeof(bool)) {
+            message = new AnimationParameterInfoBoolMessage();
+            ((AnimationParameterInfoBoolMessage)message).value = (bool)fieldValue;
+            message.syncedValueType = AnimationParameterInfoMessage.syncType.BOOL;
+        } else {
+            QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Unknown animator parameter type -> " + fieldName + " of " + fieldValue.GetType().Name);
+            return null;
+        }
+
+        message.fieldName = fieldName;
+        return message;
+    }
+
+    public static void applySyncAnimationMessageToAnimator(Animator animator, AnimationParameterInfoMessage message) {
+        switch (message.syncedValueType) {
+            case AnimationParameterInfoMessage.syncType.INT: {
+                AnimationParameterInfoIntMessage syncMessageDetailed = (AnimationParameterInfoIntMessage)message;
+                animator.SetInteger(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                break;
+            }
+
+            case AnimationParameterInfoMessage.syncType.FLOAT: {
+                AnimationParameterInfoFloatMessage syncMessageDetailed = (AnimationParameterInfoFloatMessage)message;
+                animator.SetFloat(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                break;
+            }
+
+            case AnimationParameterInfoMessage.syncType.BOOL: {
+                AnimationParameterInfoBoolMessage syncMessageDetailed = (AnimationParameterInfoBoolMessage)message;
+                animator.SetBool(syncMessageDetailed.fieldName, syncMessageDetailed.value);
+                break;
+            }
+        }
+    }
+
+    public static object getParameterValueFromAnimator(Animator animator, AnimatorControllerParameter parameter) {
+        switch(parameter.type) {
+            case AnimatorControllerParameterType.Int:
+                return animator.GetInteger(parameter.name);
+
+            case AnimatorControllerParameterType.Float:
+                return animator.GetFloat(parameter.name);
+
+            case AnimatorControllerParameterType.Bool:
+                return animator.GetBool(parameter.name);
+
+            default:
+                return null;
         }
     }
 }

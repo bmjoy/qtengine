@@ -5,12 +5,12 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-public class SyncFloatMessage : SyncFieldMessage {
+public class AnimationParameterInfoBoolMessage : AnimationParameterInfoMessage {
 
     [ProtoMember(2001)]
-    public float value;
+    public bool value;
 
-    public SyncFloatMessage() : base() {
+    public AnimationParameterInfoBoolMessage() : base() {
         syncedValueType = syncType.FLOAT;
     }
 }

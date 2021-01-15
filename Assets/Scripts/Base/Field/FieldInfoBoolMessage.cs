@@ -5,12 +5,12 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-public class SyncBoolMessage : SyncFieldMessage {
+public class FieldInfoBoolMessage : FieldInfoMessage {
 
     [ProtoMember(2001)]
     public bool value;
 
-    public SyncBoolMessage() : base() {
+    public FieldInfoBoolMessage() : base() {
         syncedValueType = syncType.BOOL;
     }
 }

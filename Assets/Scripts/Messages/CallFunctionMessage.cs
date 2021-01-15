@@ -15,7 +15,7 @@ public class CallFunctionMessage : QTMessage {
     [ProtoMember(2003)]
     public string functionName;
     [ProtoMember(2004)]
-    public SyncFieldMessage[] parameters;
+    public FieldInfoMessage[] parameters;
 
     public CallFunctionMessage() {
         messageType = type.CALL_FUNCTION;

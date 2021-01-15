@@ -5,12 +5,12 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-public class SyncIntMessage : SyncFieldMessage {
+public class AnimationParameterInfoIntMessage : AnimationParameterInfoMessage {
 
     [ProtoMember(2001)]
     public int value;
 
-    public SyncIntMessage() : base() {
+    public AnimationParameterInfoIntMessage() : base() {
         syncedValueType = syncType.INT;
     }
 }

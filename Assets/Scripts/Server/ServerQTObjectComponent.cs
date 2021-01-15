@@ -45,10 +45,10 @@ public class ServerQTObjectComponent {
             return;
         }
 
-        SyncFieldMessage message = QTUtils.getSyncFieldMessage(fieldName, fieldValue);
+        FieldInfoMessage message = QTUtils.getSyncFieldMessage(fieldName, fieldValue);
         message.objectID = component.obj.objectID;
         message.index = component.index;
-        WorkerServerManager.instance.sendMessageToAll(message);
+        WorkerServerManager.instance.sendMessageToAllReady(message);
 
         //QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Sending sync of value(" + fieldName + "=" + fieldValue + ")");
     }
@@ -61,9 +61,9 @@ public class ServerQTObjectComponent {
     public void callNetworkFunction(string functionName, object[] parameters) {
         component.callFunction(functionName, parameters);
 
-        List<SyncFieldMessage> parameterMessages = new List<SyncFieldMessage>();
+        List<FieldInfoMessage> parameterMessages = new List<FieldInfoMessage>();
         foreach(object parameter in parameters) {
-            SyncFieldMessage fieldMessage = QTUtils.getSyncFieldMessage("parameter", parameter);
+            FieldInfoMessage fieldMessage = QTUtils.getSyncFieldMessage("parameter", parameter);
             parameterMessages.Add(fieldMessage);
         }
 

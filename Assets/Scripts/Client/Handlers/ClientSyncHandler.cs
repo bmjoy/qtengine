@@ -34,7 +34,7 @@ public class ClientSyncHandler : BaseMessageHandler {
             }
 
             case QTMessage.type.SYNC_FIELD: {
-                SyncFieldMessage syncMessage = (SyncFieldMessage)message;
+                FieldInfoMessage syncMessage = (FieldInfoMessage)message;
                 if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
                     return;
                 }
@@ -43,6 +43,19 @@ public class ClientSyncHandler : BaseMessageHandler {
                 BaseQTObjectComponent component = clientObject.objectComponents[syncMessage.index];
 
                 component.clientComponent.setSyncedField(syncMessage.fieldName, QTUtils.getValueFromSyncFieldMessage(syncMessage));
+                break;
+            }
+
+            case QTMessage.type.SYNC_ANIMATION: {
+                AnimationParameterInfoMessage syncMessage = (AnimationParameterInfoMessage)message;
+                if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
+                    return;
+                }
+
+                ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
+                SyncAnimation component = (SyncAnimation)clientObject.objectComponents[syncMessage.index];
+
+                QTUtils.applySyncAnimationMessageToAnimator(component.animator, syncMessage);
                 break;
             }
 
@@ -58,7 +71,7 @@ public class ClientSyncHandler : BaseMessageHandler {
 
                         List<object> parameters = new List<object>();
                         if (callMessage.parameters != null) {
-                            foreach (SyncFieldMessage fieldMessage in callMessage.parameters) {
+                            foreach (FieldInfoMessage fieldMessage in callMessage.parameters) {
                                 parameters.Add(QTUtils.getValueFromSyncFieldMessage(fieldMessage));
                             }
                         }

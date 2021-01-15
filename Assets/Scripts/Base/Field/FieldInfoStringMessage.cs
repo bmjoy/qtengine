@@ -5,12 +5,12 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-public class SyncStringMessage : SyncFieldMessage {
+public class FieldInfoStringMessage : FieldInfoMessage {
 
     [ProtoMember(2001)]
     public string value;
 
-    public SyncStringMessage() : base() {
+    public FieldInfoStringMessage() : base() {
         syncedValueType = syncType.STRING;
     }
 }

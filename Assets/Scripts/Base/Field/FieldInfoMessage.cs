@@ -5,11 +5,11 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-[ProtoInclude(1, typeof(SyncIntMessage))]
-[ProtoInclude(2, typeof(SyncFloatMessage))]
-[ProtoInclude(3, typeof(SyncBoolMessage))]
-[ProtoInclude(4, typeof(SyncStringMessage))]
-public class SyncFieldMessage : QTMessage {
+[ProtoInclude(1, typeof(FieldInfoIntMessage))]
+[ProtoInclude(2, typeof(FieldInfoFloatMessage))]
+[ProtoInclude(3, typeof(FieldInfoBoolMessage))]
+[ProtoInclude(4, typeof(FieldInfoStringMessage))]
+public class FieldInfoMessage : QTMessage {
 
     public enum syncType { INT, FLOAT, BOOL, STRING }
 
@@ -23,7 +23,7 @@ public class SyncFieldMessage : QTMessage {
     [ProtoMember(2004)]
     public syncType syncedValueType;
 
-    public SyncFieldMessage() {
+    public FieldInfoMessage() {
         messageType = type.SYNC_FIELD;
     }
 }
