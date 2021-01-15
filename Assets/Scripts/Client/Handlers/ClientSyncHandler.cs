@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,47 +42,33 @@ public class ClientSyncHandler : BaseMessageHandler {
                 ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
                 BaseQTObjectComponent component = clientObject.objectComponents[syncMessage.index];
 
-                switch (syncMessage.syncedValueType) {
-                    case SyncFieldMessage.syncType.INT: {
-                        SyncIntMessage syncMessageDetailed = (SyncIntMessage)message;
-                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
-                        break;
-                    }
-
-                    case SyncFieldMessage.syncType.FLOAT: {
-                        SyncFloatMessage syncMessageDetailed = (SyncFloatMessage)message;
-                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
-                        break;
-                    }
-
-                    case SyncFieldMessage.syncType.BOOL: {
-                        SyncBoolMessage syncMessageDetailed = (SyncBoolMessage)message;
-                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
-                        break;
-                    }
-
-                    case SyncFieldMessage.syncType.STRING: {
-                        SyncStringMessage syncMessageDetailed = (SyncStringMessage)message;
-                        component.clientComponent.setSyncedField(syncMessageDetailed.fieldName, syncMessageDetailed.value);
-                        break;
-                    }
-                }
-
+                component.clientComponent.setSyncedField(syncMessage.fieldName, QTUtils.getValueFromSyncFieldMessage(syncMessage));
                 break;
             }
 
-
             case QTMessage.type.CALL_FUNCTION: {
-                    CallFunctionMessage callMessage = (CallFunctionMessage)message;
-                    if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(callMessage.objectID) == false) {
-                        return;
-                    }
+                    try {
+                        CallFunctionMessage callMessage = (CallFunctionMessage)message;
+                        if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(callMessage.objectID) == false) {
+                            return;
+                        }
 
-                    ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[callMessage.objectID];
-                    BaseQTObjectComponent component = clientObject.objectComponents[callMessage.index];
-                    component.callFunction(callMessage.functionName);
-                    break;
-                }
+                        ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[callMessage.objectID];
+                        BaseQTObjectComponent component = clientObject.objectComponents[callMessage.index];
+
+                        List<object> parameters = new List<object>();
+                        if (callMessage.parameters != null) {
+                            foreach (SyncFieldMessage fieldMessage in callMessage.parameters) {
+                                parameters.Add(QTUtils.getValueFromSyncFieldMessage(fieldMessage));
+                            }
+                        }
+
+                        component.callFunction(callMessage.functionName, parameters.ToArray());
+                    } catch(Exception e) {
+                        Debug.LogError(e);
+                    }
+                break;
+            }
         }
     }
 }

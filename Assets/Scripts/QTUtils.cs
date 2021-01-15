@@ -125,4 +125,59 @@ public class QTUtils : MonoBehaviour {
 
         return cmdArgs;
     }
+
+    public static SyncFieldMessage getSyncFieldMessage(string fieldName, object fieldValue) {
+        SyncFieldMessage message = new SyncFieldMessage();
+        if (fieldValue.GetType() == typeof(int)) {
+            message = new SyncIntMessage();
+            ((SyncIntMessage)message).value = (int)fieldValue;
+            message.syncedValueType = SyncFieldMessage.syncType.INT;
+        } else if (fieldValue.GetType() == typeof(float)) {
+            message = new SyncFloatMessage();
+            ((SyncFloatMessage)message).value = (float)fieldValue;
+            message.syncedValueType = SyncFieldMessage.syncType.FLOAT;
+        } else if (fieldValue.GetType() == typeof(bool)) {
+            message = new SyncBoolMessage();
+            ((SyncBoolMessage)message).value = (bool)fieldValue;
+            message.syncedValueType = SyncFieldMessage.syncType.BOOL;
+        } else if (fieldValue.GetType() == typeof(string)) {
+            message = new SyncStringMessage();
+            ((SyncStringMessage)message).value = (string)fieldValue;
+            message.syncedValueType = SyncFieldMessage.syncType.STRING;
+        } else {
+            QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Unknown synced type -> " + fieldName + " of " + fieldValue.GetType().Name);
+            return null;
+        }
+
+        message.fieldName = fieldName;
+        return message;
+    }
+
+   public static object getValueFromSyncFieldMessage(SyncFieldMessage message) {
+        switch (message.syncedValueType) {
+            case SyncFieldMessage.syncType.INT: {
+                SyncIntMessage syncMessageDetailed = (SyncIntMessage)message;
+                return syncMessageDetailed.value;
+            }
+
+            case SyncFieldMessage.syncType.FLOAT: {
+                SyncFloatMessage syncMessageDetailed = (SyncFloatMessage)message;
+                return syncMessageDetailed.value;
+            }
+
+            case SyncFieldMessage.syncType.BOOL: {
+                SyncBoolMessage syncMessageDetailed = (SyncBoolMessage)message;
+                return syncMessageDetailed.value;
+            }
+
+            case SyncFieldMessage.syncType.STRING: {
+                SyncStringMessage syncMessageDetailed = (SyncStringMessage)message;
+                return syncMessageDetailed.value;
+            }
+
+            default: {
+                return null;
+            }
+        }
+    }
 }

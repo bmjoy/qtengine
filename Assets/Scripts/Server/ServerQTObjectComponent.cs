@@ -45,43 +45,33 @@ public class ServerQTObjectComponent {
             return;
         }
 
-        SyncFieldMessage message = new SyncFieldMessage();
-        if (fieldValue.GetType() == typeof(int)) {
-            message = new SyncIntMessage();
-            ((SyncIntMessage)message).value = (int)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.INT;
-        } else if (fieldValue.GetType() == typeof(float)) {
-            message = new SyncFloatMessage();
-            ((SyncFloatMessage)message).value = (float)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.FLOAT;
-        } else if (fieldValue.GetType() == typeof(bool)) {
-            message = new SyncBoolMessage();
-            ((SyncBoolMessage)message).value = (bool)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.BOOL;
-        } else if (fieldValue.GetType() == typeof(string)) {
-            message = new SyncStringMessage();
-            ((SyncStringMessage)message).value = (string)fieldValue;
-            message.syncedValueType = SyncFieldMessage.syncType.STRING;
-        } else {
-            QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Unknown synced type -> " + fieldName + " of " + fieldValue.GetType().Name);
-            return;
-        }
-
+        SyncFieldMessage message = QTUtils.getSyncFieldMessage(fieldName, fieldValue);
         message.objectID = component.obj.objectID;
         message.index = component.index;
-        message.fieldName = fieldName;
         WorkerServerManager.instance.sendMessageToAll(message);
 
         //QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Sending sync of value(" + fieldName + "=" + fieldValue + ")");
     }
 
     public void callNetworkFunction(string functionName) {
-        component.callFunction(functionName);
+        object[] parameters = { };
+        callNetworkFunction(functionName, parameters);
+    }
+
+    public void callNetworkFunction(string functionName, object[] parameters) {
+        component.callFunction(functionName, parameters);
+
+        List<SyncFieldMessage> parameterMessages = new List<SyncFieldMessage>();
+        foreach(object parameter in parameters) {
+            SyncFieldMessage fieldMessage = QTUtils.getSyncFieldMessage("parameter", parameter);
+            parameterMessages.Add(fieldMessage);
+        }
 
         CallFunctionMessage message = new CallFunctionMessage();
         message.objectID = component.obj.objectID;
         message.index = component.index;
         message.functionName = functionName;
+        message.parameters = parameterMessages.ToArray();
         WorkerServerManager.instance.sendMessageToAllReady(message);
     }
 }

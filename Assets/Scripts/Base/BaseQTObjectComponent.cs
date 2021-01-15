@@ -138,11 +138,9 @@ public abstract class BaseQTObjectComponent : MonoBehaviour {
         serverComponent.syncFields();
     }
 
-    public void callFunction(string functionName) {
+    public void callFunction(string functionName, object[] parameters) {
         foreach (MethodInfo mi in GetType().UnderlyingSystemType.GetMethods().Where(mi => mi.Name == functionName)) {
             QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Calling function - " + functionName);
-
-            object[] parameters = { };
             mi.Invoke(this, parameters);
         }
     }
