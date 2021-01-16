@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ServerMap01.unity
     guid: 658fb3e508f9ab9478cf3c10e1cacca5
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c434ffb29c6a55442af1f81fdbdc3333, type: 2}
-    Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: a8d779fb96741d744921f843735cee78, type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 0}
+    Unity.XR.WindowsMR.Settings: {fileID: 0}
     com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 90edb4dc54f60c64f92f35017b54ed4f, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 1ce07f4cc9be8b44fa9785f4f9e39e6e, type: 2}
