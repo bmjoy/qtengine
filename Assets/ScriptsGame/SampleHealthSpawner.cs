@@ -23,7 +23,7 @@ public class SampleHealthSpawner : BaseQTObjectComponent {
         }
     }
     public void spawnPack() {
-        ServerQTObject spawnedObj = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "HealthPack", QTUtils.getSyncMessageFromObject(obj));
+        ServerQTObject spawnedObj = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "HealthPack", QTUtils.getSyncPositionMessageFromObject(obj), QTUtils.getSyncRotationMessageFromObject(obj));
         spawnedObject = spawnedObj;
     }
 

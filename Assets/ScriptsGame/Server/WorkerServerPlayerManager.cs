@@ -24,7 +24,7 @@ public class WorkerServerPlayerManager : MonoBehaviour {
     public void spawnPlayer(ServerQTClient client) {
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Spawning player for Client(" + client.getIP() + ")...");
 
-        ServerQTObject obj = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "Player", QTUtils.getSyncMessage(0f, 3f, 0f));
+        ServerQTObject obj = (ServerQTObject)WorkerServerManager.instance.spawnManager.spawnObject(Guid.NewGuid().ToString(), "Player", QTUtils.getSyncPositionMessage(0f, 3f, 0f), QTUtils.getSyncRotationMessage());
         obj.setServerOwner(client.session.id);
 
         players.Add(client.session.id, obj);
