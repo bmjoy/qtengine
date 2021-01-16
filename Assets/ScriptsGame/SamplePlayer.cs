@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SamplePlayer : BaseQTObjectComponent {
 
     public SamplePlayerUI playerUI;
     public Camera playerCamera;
     public Animator playerAnimator;
+    public Text namePlate;
 
     public Transform playerBody;
     public CharacterController controller;
@@ -97,7 +99,10 @@ public class SamplePlayer : BaseQTObjectComponent {
     }
 
     public override void handleClientUpdate() {
+        string username = SyncedRoomInfo.instance != null && SyncedRoomInfo.instance.players.ContainsKey(obj.objectID) ? SyncedRoomInfo.instance.players[obj.objectID] : "Loading";
+
         playerUI.healthSlider.value = health / maxHealth;
         playerUI.healthText.text = Mathf.Round(health).ToString();
+        namePlate.text = username;
     }
 }

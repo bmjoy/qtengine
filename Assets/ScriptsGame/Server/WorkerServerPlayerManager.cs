@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class WorkerServerPlayerManager : MonoBehaviour {
 
+    public static WorkerServerPlayerManager instance { get; protected set; }
+
     public Dictionary<string, ServerQTObject> players;
+
+    void Awake() {
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start() {
         players = new Dictionary<string, ServerQTObject>();
