@@ -29,7 +29,9 @@
 <div>
 [x] Syncing primitives (int, float, bool, string, ...)
 <br />
-[-] Syncing arrays
+[x] Syncing arrays
+<br />
+[x] Syncing dictionaries
 <br />
 [x] Syncing spawning objects
 <br />
