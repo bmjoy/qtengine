@@ -26,6 +26,7 @@ public class MasterServerManager : BaseServerManager {
     }
 
     public void handleMasterStart() {
+        database = new BaseQTDatabase();
         connections = new MasterServerConnectionsManager(this);
 
         webServer = new WebServer(this);
@@ -48,6 +49,7 @@ public class MasterServerManager : BaseServerManager {
         setupTCPServer(port);
         webServer.setupWebServer();
         workersManager.spawnWorker("__global");
+        database.connect();
 
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Started master server on port " + port + "...");
         state = componentState.RUNNING;

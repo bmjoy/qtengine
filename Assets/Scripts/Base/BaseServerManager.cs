@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 public abstract class BaseServerManager : BaseNetworking {
 
     public BaseServerConnectionsManager connections;
+    public BaseQTDatabase database;
     public TcpListener server;
     public List<QTMessageLog> messageLog;
 
@@ -41,6 +42,7 @@ public abstract class BaseServerManager : BaseNetworking {
             qtRemoteClient.closeConnection();
         }
 
+        database.close();
         server.Stop();
         connections.thread.Abort();
     }
