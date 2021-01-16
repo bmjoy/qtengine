@@ -45,7 +45,12 @@ public abstract class BaseQTClient {
 
             List<QTMessage> queue = queuedMessages.ToList();
             foreach (QTMessage message in queue) {
-                onMessageRecieved(message);
+                try {
+                    onMessageRecieved(message);
+                } catch(Exception e) {
+                    Debug.LogError(e);
+                }
+
                 queuedMessages.Remove(message);
             }
         } catch {
