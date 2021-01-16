@@ -13,11 +13,23 @@
 </div>
 [x] Multiple rooms using multiple server workers
 <br />
+[x] Custom components and client/server separated logic
+<br />
+[x] Easily synchronizable just by adding attributes
+<br />
+[x] Very low packet sizes (almost same as source objects) using protobuf-net allowing thousand of updates per second 
+<br />
+[-] Web interface to interact with the server
+<br />
+[-] Easy to use database using Redis
+<br />
 <div>
 <br />
 <b>Syncing progress:</b>
 <div>
 [x] Syncing primitives (int, float, bool, string, ...)
+<br />
+[-] Syncing arrays
 <br />
 [x] Syncing spawning objects
 <br />
@@ -25,17 +37,26 @@
 <br />
 [x] Syncing position/rotation (with linear interpolation)
 <br />
+[-] Syncing scale
+<br />
 [x] Syncing client input (configurable keys)
 <br />
 [x] Syncing client axis (configurable axises)
 <br />
 [x] Syncing function calls
 <br />
-[-] Syncing function calls with arguments
+[x] Syncing function calls with arguments
 </div>
 <br />
 <b>Syncing components:</b>
 <div>
-None
+[x] SyncGameobject - synchronizes position and rotation of object
+<br />
+[x] SyncAnimation - synchronizes animation parameters of object
+<br />
+[-] SyncAudio - synchronizes volume, play states of object
+<br />
+[-] SyncVideo - synchronizes volume, play states of object
+<br />
 </div>
 </div>
