@@ -9,8 +9,8 @@ public class ClientSpawnManager : BaseSpawnManager {
 
     }
 
-    public override BaseQTObject spawnObject(string objectID, string prefabName, SyncMessage spawnPosition) {
-        GameObject obj = QTUtils.spawnGameobject(AppManager.instance.networkStorage.prefabs.Find(o => o.name == prefabName), spawnPosition);
+    public override BaseQTObject spawnObject(string objectID, string prefabName, SyncPositionMessage spawnPosition, SyncRotationMessage spawnRotation) {
+        GameObject obj = QTUtils.spawnGameobject(AppManager.instance.networkStorage.prefabs.Find(o => o.name == prefabName), spawnPosition, spawnRotation);
         ClientQTObject spawnedObj = obj.AddComponent<ClientQTObject>();
         spawnedObj.objectID = objectID;
         spawnedObj.prefabName = prefabName;

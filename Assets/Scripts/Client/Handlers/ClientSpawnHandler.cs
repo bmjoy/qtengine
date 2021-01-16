@@ -12,7 +12,7 @@ public class ClientSpawnHandler : BaseMessageHandler {
         switch (message.messageType) {
             case QTMessage.type.SPAWN:
                 SpawnMessage spawnMessage = (SpawnMessage)message;
-                ClientManager.instance.spawnManager.spawnObject(spawnMessage.objectID, spawnMessage.prefabName, spawnMessage.spawnPosition);
+                ClientManager.instance.spawnManager.spawnObject(spawnMessage.objectID, spawnMessage.prefabName, spawnMessage.spawnPosition, spawnMessage.spawnRotation);
                 break;
 
             case QTMessage.type.DESPAWN:

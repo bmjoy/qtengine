@@ -43,9 +43,8 @@ public class SyncGameobject : BaseQTObjectComponent {
     }
 
     public void emitPositionSync() {
-        SyncMessage message = new SyncMessage();
+        SyncPositionMessage message = new SyncPositionMessage();
         message.objectID = obj.objectID;
-        message.stype = 0;
         message.posX = gameObject.transform.position.x;
         message.posY = gameObject.transform.position.y;
         message.posZ = gameObject.transform.position.z;
@@ -54,9 +53,8 @@ public class SyncGameobject : BaseQTObjectComponent {
     }
 
     public void emitRotationSync() {
-        SyncMessage message = new SyncMessage();
+        SyncRotationMessage message = new SyncRotationMessage();
         message.objectID = obj.objectID;
-        message.stype = 1;
         message.rotX = gameObject.transform.rotation.eulerAngles.x;
         message.rotY = gameObject.transform.rotation.eulerAngles.y;
         message.rotZ = gameObject.transform.rotation.eulerAngles.z;

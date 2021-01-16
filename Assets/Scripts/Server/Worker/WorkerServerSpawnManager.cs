@@ -9,8 +9,8 @@ public class WorkerServerSpawnManager : BaseSpawnManager {
 
     }
 
-    public override BaseQTObject spawnObject(string objectID, string prefabName, SyncMessage spawnPosition) {
-        GameObject obj = QTUtils.spawnGameobject(AppManager.instance.networkStorage.prefabs.Find(o => o.name == prefabName), spawnPosition);
+    public override BaseQTObject spawnObject(string objectID, string prefabName, SyncPositionMessage spawnPosition, SyncRotationMessage spawnRotation) {
+        GameObject obj = QTUtils.spawnGameobject(AppManager.instance.networkStorage.prefabs.Find(o => o.name == prefabName), spawnPosition, spawnRotation);
 
         ServerQTObject spawnedObj = obj.AddComponent<ServerQTObject>();
         spawnedObj.objectID = objectID;
@@ -21,6 +21,7 @@ public class WorkerServerSpawnManager : BaseSpawnManager {
         message.objectID = spawnedObj.objectID;
         message.prefabName = prefabName;
         message.spawnPosition = spawnPosition;
+        message.spawnRotation = spawnRotation;
         WorkerServerManager.instance.sendMessageToAllReady(message);
 
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Spawned " + prefabName + " with ID - " + objectID);

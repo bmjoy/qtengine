@@ -78,9 +78,9 @@ public class QTUtils : MonoBehaviour {
     public static List<TEnum> GetEnumList<TEnum>() where TEnum : Enum
     => ((TEnum[])Enum.GetValues(typeof(TEnum))).ToList();
 
-    public static GameObject spawnGameobject(GameObject obj, SyncMessage spawnPosition) {
+    public static GameObject spawnGameobject(GameObject obj, SyncPositionMessage spawnPosition, SyncRotationMessage spawnRotation) {
         GameObject gameObject = Instantiate(obj);
-        gameObject.transform.SetPositionAndRotation(new Vector3(spawnPosition.posX, spawnPosition.posY, spawnPosition.posZ), Quaternion.Euler(spawnPosition.rotX, spawnPosition.rotY, spawnPosition.rotZ));
+        gameObject.transform.SetPositionAndRotation(new Vector3(spawnPosition.posX, spawnPosition.posY, spawnPosition.posZ), Quaternion.Euler(spawnRotation.rotX, spawnRotation.rotY, spawnRotation.rotZ));
         return gameObject;
     }
 
@@ -88,12 +88,17 @@ public class QTUtils : MonoBehaviour {
         Destroy(obj);
     }
 
-    public static SyncMessage getSyncMessage(float posX = 0f, float posY = 0f, float posZ = 0f, float rotX = 0f, float rotY = 0f, float rotZ = 0f) {
-        SyncMessage message = new SyncMessage();
+    public static SyncPositionMessage getSyncPositionMessage(float posX = 0f, float posY = 0f, float posZ = 0f) {
+        SyncPositionMessage message = new SyncPositionMessage();
         message.posX = posX;
         message.posY = posY;
         message.posZ = posZ;
 
+        return message;
+    }
+
+    public static SyncRotationMessage getSyncRotationMessage(float rotX = 0f, float rotY = 0f, float rotZ = 0f) {
+        SyncRotationMessage message = new SyncRotationMessage();
         message.rotX = rotX;
         message.rotY = rotY;
         message.rotZ = rotZ;
@@ -101,15 +106,20 @@ public class QTUtils : MonoBehaviour {
         return message;
     }
 
-    public static SyncMessage getSyncMessageFromObject(BaseQTObject obj) {
-        SyncMessage message = new SyncMessage();
+    public static SyncPositionMessage getSyncPositionMessageFromObject(BaseQTObject obj) {
+        SyncPositionMessage message = new SyncPositionMessage();
         message.posX = obj.gameObject.transform.position.x;
         message.posY = obj.gameObject.transform.position.y;
         message.posZ = obj.gameObject.transform.position.z;
 
-        message.rotX = obj.gameObject.transform.rotation.eulerAngles.x;
-        message.rotY = obj.gameObject.transform.rotation.eulerAngles.y;
-        message.rotZ = obj.gameObject.transform.rotation.eulerAngles.z;
+        return message;
+    }
+
+    public static SyncRotationMessage getSyncRotationMessageFromObject(BaseQTObject obj) {
+        SyncRotationMessage message = new SyncRotationMessage();
+        message.rotX = obj.gameObject.transform.eulerAngles.x;
+        message.rotY = obj.gameObject.transform.eulerAngles.y;
+        message.rotZ = obj.gameObject.transform.eulerAngles.z;
 
         return message;
     }

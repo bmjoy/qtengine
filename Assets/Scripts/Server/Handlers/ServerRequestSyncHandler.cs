@@ -17,7 +17,8 @@ public class ServerRequestSyncHandler : BaseMessageHandler {
                     SpawnMessage spawnMessage = new SpawnMessage();
                     spawnMessage.objectID = obj.objectID;
                     spawnMessage.prefabName = obj.prefabName;
-                    spawnMessage.spawnPosition = QTUtils.getSyncMessageFromObject(obj);
+                    spawnMessage.spawnPosition = QTUtils.getSyncPositionMessageFromObject(obj);
+                    spawnMessage.spawnRotation = QTUtils.getSyncRotationMessageFromObject(obj);
                     qtRemoteClient.sendMessage(spawnMessage);
 
                     foreach(BaseQTObjectComponent comp in obj.objectComponents.Values) {

@@ -12,7 +12,7 @@ public abstract class BaseSpawnManager {
         syncedObjects = new Dictionary<string, SyncGameobject>();
     }
 
-    public abstract BaseQTObject spawnObject(string objectID, string prefabName, SyncMessage spawnPosition);
+    public abstract BaseQTObject spawnObject(string objectID, string prefabName, SyncPositionMessage spawnPosition, SyncRotationMessage spawnRotation);
 
     public void processSpawn(BaseQTObject obj) {
         spawnedObjects.Add(obj.objectID, obj);

@@ -11,25 +11,27 @@ public class ClientSyncHandler : BaseMessageHandler {
 
     public override void handleMessage(QTMessage message) {
         switch(message.messageType) {
-            case QTMessage.type.SYNC: {
-                SyncMessage syncMessage = (SyncMessage)message;
+            case QTMessage.type.SYNC_POSITION: {
+                SyncPositionMessage syncMessage = (SyncPositionMessage)message;
                 if(ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
                     return;
                 }
 
                 ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
                 SyncGameobject syncComponent = (SyncGameobject)clientObject.objectComponents[syncMessage.index];
+                syncComponent.syncedPosition = new Vector3(syncMessage.posX, syncMessage.posY, syncMessage.posZ);
+                break;
+            }
 
-                switch (syncMessage.stype) {
-                    case 0:
-                        syncComponent.syncedPosition = new Vector3(syncMessage.posX, syncMessage.posY, syncMessage.posZ);
-                        break;
-
-                    case 1:
-                        syncComponent.syncedRotation = new Vector3(syncMessage.rotX, syncMessage.rotY, syncMessage.rotZ);
-                        break;
+            case QTMessage.type.SYNC_ROTATION: {
+                SyncRotationMessage syncMessage = (SyncRotationMessage)message;
+                if(ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
+                    return;
                 }
 
+                ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
+                SyncGameobject syncComponent = (SyncGameobject)clientObject.objectComponents[syncMessage.index];
+                syncComponent.syncedRotation = new Vector3(syncMessage.rotX, syncMessage.rotY, syncMessage.rotZ);
                 break;
             }
 
