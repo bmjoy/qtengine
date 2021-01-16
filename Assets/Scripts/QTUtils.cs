@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ProtoBuf;
+using System.Reflection;
 
 public class QTUtils : MonoBehaviour {
 
@@ -128,6 +129,7 @@ public class QTUtils : MonoBehaviour {
 
     public static FieldInfoMessage getSyncFieldMessage(string fieldName, object fieldValue) {
         FieldInfoMessage message = new FieldInfoMessage();
+
         if (fieldValue.GetType() == typeof(int)) {
             message = new FieldInfoIntMessage();
             ((FieldInfoIntMessage)message).value = (int)fieldValue;
@@ -144,6 +146,33 @@ public class QTUtils : MonoBehaviour {
             message = new FieldInfoStringMessage();
             ((FieldInfoStringMessage)message).value = (string)fieldValue;
             message.syncedValueType = FieldInfoMessage.syncType.STRING;
+        } else if (fieldValue.GetType().IsArray) {
+            message = new FieldInfoArrayMessage();
+
+            List<FieldInfoMessage> messages = new List<FieldInfoMessage>();
+            IEnumerable originalEnumerable = fieldValue as IEnumerable;
+            object[] originalArray = originalEnumerable.OfType<object>().ToArray();
+
+            for(int i = 0; i < originalArray.Length; i++) {
+                messages.Add(getSyncFieldMessage(i.ToString(), originalArray[i]));
+            }
+
+            ((FieldInfoArrayMessage)message).value = messages.ToArray();
+            message.syncedValueType = FieldInfoArrayMessage.syncType.ARRAY;
+        } else if (typeof(IDictionary).IsAssignableFrom(fieldValue.GetType())) {
+            message = new FieldInfoDictionaryMessage();
+
+            Dictionary<FieldInfoMessage, FieldInfoMessage> messages = new Dictionary<FieldInfoMessage, FieldInfoMessage>();
+            IDictionary originalDictionary = fieldValue as IDictionary;
+
+            int i = 0;
+            foreach(object key in originalDictionary.Keys) {
+                messages.Add(getSyncFieldMessage(i + "-0", key), getSyncFieldMessage(i + "-1", originalDictionary[key]));
+                i++;
+            }
+
+            ((FieldInfoDictionaryMessage)message).value = messages;
+            message.syncedValueType = FieldInfoDictionaryMessage.syncType.DICTIONARY;
         } else {
             QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "Unknown synced type -> " + fieldName + " of " + fieldValue.GetType().Name);
             return null;
@@ -173,6 +202,30 @@ public class QTUtils : MonoBehaviour {
             case FieldInfoMessage.syncType.STRING: {
                 FieldInfoStringMessage syncMessageDetailed = (FieldInfoStringMessage)message;
                 return syncMessageDetailed.value;
+            }
+
+            case FieldInfoMessage.syncType.ARRAY: {
+                FieldInfoArrayMessage syncMessageDetailed = (FieldInfoArrayMessage)message;
+
+                List<object> values = new List<object>();
+                if (syncMessageDetailed.value == null) { return values; }
+                for (int i = 0; i < syncMessageDetailed.value.Length; i++) {
+                    values.Add(getValueFromSyncFieldMessage(syncMessageDetailed.value[i]));
+                }
+
+                return values.ToArray();
+            }
+
+            case FieldInfoMessage.syncType.DICTIONARY: {
+                FieldInfoDictionaryMessage syncMessageDetailed = (FieldInfoDictionaryMessage)message;
+
+                Dictionary<object, object> values = new Dictionary<object, object>();
+                if (syncMessageDetailed.value == null) { return values; }
+                foreach (FieldInfoMessage key in syncMessageDetailed.value.Keys) {
+                    values.Add(getValueFromSyncFieldMessage(key), getValueFromSyncFieldMessage(syncMessageDetailed.value[key]));
+                }
+
+                return values;
             }
 
             default: {
@@ -240,5 +293,44 @@ public class QTUtils : MonoBehaviour {
             default:
                 return null;
         }
+    }
+
+    public static void setCorrectSyncedObject(ClientQTObjectComponent clientComponent, FieldInfo field, object newValue) {
+        object currentValue = field.GetValue(clientComponent.component);
+
+        if (isArray(currentValue)) {
+            IEnumerable oldArray = currentValue as IEnumerable;
+            if (newValue == null) { return; }
+
+            IEnumerable newArray = newValue as IEnumerable;
+            oldArray = newArray;
+        } else if (isDictionary(currentValue)) {
+            IDictionary oldDictionary = currentValue as IDictionary;
+            oldDictionary.Clear();
+            if (newValue == null) { return; }
+
+            IDictionary newDictionary = newValue as IDictionary;
+            foreach (object key in newDictionary.Keys) {
+                object value = newDictionary[key];
+                oldDictionary.Add(key, value);
+            }
+        } else {
+            field.SetValue(clientComponent.component, newValue);
+        }
+    }
+
+    public static bool hasSyncedFieldChanged(ServerQTObjectComponent serverComponent, FieldInfo fi, object oldValue) {
+        object currentValue = fi.GetValue(serverComponent.component);
+
+        return (oldValue == null && currentValue != null)
+            || (oldValue != null && oldValue.Equals(currentValue) == false);
+    }
+
+    public static bool isArray(object obj) {
+        return obj.GetType().IsArray;
+    }
+
+    public static bool isDictionary(object obj) {
+        return typeof(IDictionary).IsAssignableFrom(obj.GetType());
     }
 }

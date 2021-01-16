@@ -14,8 +14,10 @@ public class ClientQTObjectComponent {
     }
 
     public void setSyncedField(string fieldName, object fieldValue) {
-        component.GetType().UnderlyingSystemType.GetField(fieldName).SetValue(component, fieldValue);
-        //QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Syncing value(" + fieldName + "=" + fieldValue + ")");
+        FieldInfo field = component.GetType().UnderlyingSystemType.GetField(fieldName);
+        QTUtils.setCorrectSyncedObject(this, field, fieldValue);
+
+        QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Syncing value(" + fieldName + "=" + fieldValue + ")");
     }
 
     public bool isOwner() {

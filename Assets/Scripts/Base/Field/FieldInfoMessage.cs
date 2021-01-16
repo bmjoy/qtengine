@@ -9,9 +9,11 @@ using ProtoBuf;
 [ProtoInclude(2, typeof(FieldInfoFloatMessage))]
 [ProtoInclude(3, typeof(FieldInfoBoolMessage))]
 [ProtoInclude(4, typeof(FieldInfoStringMessage))]
+[ProtoInclude(5, typeof(FieldInfoArrayMessage))]
+[ProtoInclude(6, typeof(FieldInfoDictionaryMessage))]
 public class FieldInfoMessage : QTMessage {
 
-    public enum syncType { INT, FLOAT, BOOL, STRING }
+    public enum syncType { INT, FLOAT, BOOL, STRING, ARRAY, DICTIONARY }
 
     [ProtoMember(2001)]
     public string objectID;

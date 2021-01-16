@@ -15,7 +15,7 @@ public class QTDebugger {
         enabledDebugTypes = new List<debugType>();
         enabledDebugTypes.Add(debugType.BASE);
         enabledDebugTypes.Add(debugType.EVENTS);
-        //enabledDebugTypes.Add(debugType.NETWORK);
+        enabledDebugTypes.Add(debugType.NETWORK);
         enabledDebugTypes.Add(debugType.NETWORK_WORKER);
     }
 

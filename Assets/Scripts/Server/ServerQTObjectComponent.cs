@@ -24,7 +24,7 @@ public class ServerQTObjectComponent {
                 lastFields.Add(fi.Name, latestValue);
 
                 onSyncedFieldChanged(fi.Name, lastFields[fi.Name]);
-            } else if (lastFields[fi.Name].Equals(latestValue) == false) {
+            } else if (QTUtils.hasSyncedFieldChanged(this, fi, lastFields[fi.Name])) {
                 lastFields[fi.Name] = latestValue;
 
                 onSyncedFieldChanged(fi.Name, lastFields[fi.Name]);
@@ -48,9 +48,9 @@ public class ServerQTObjectComponent {
         FieldInfoMessage message = QTUtils.getSyncFieldMessage(fieldName, fieldValue);
         message.objectID = component.obj.objectID;
         message.index = component.index;
-        WorkerServerManager.instance.sendMessageToAllReady(message);
+        WorkerServerManager.instance.sendMessageToAll(message);
 
-        //QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Sending sync of value(" + fieldName + "=" + fieldValue + ")");
+        QTDebugger.instance.debug(QTDebugger.debugType.NETWORK, "Sending sync of value(" + fieldName + "=" + fieldValue + ")");
     }
 
     public void callNetworkFunction(string functionName) {
@@ -72,6 +72,6 @@ public class ServerQTObjectComponent {
         message.index = component.index;
         message.functionName = functionName;
         message.parameters = parameterMessages.ToArray();
-        WorkerServerManager.instance.sendMessageToAllReady(message);
+        WorkerServerManager.instance.sendMessageToAll(message);
     }
 }
