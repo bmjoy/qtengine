@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class WorkerServerManager : BaseServerManager {
 
@@ -46,6 +47,8 @@ public class WorkerServerManager : BaseServerManager {
     }
 
     public override void setupServer(int port) {
+        XRSettings.enabled = false;
+
         setupTCPServer(port);
         state = componentState.RUNNING;
 

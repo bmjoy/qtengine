@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Valve.VR;
+using Unity.XR;
+using UnityEngine.XR.Management;
 
 public class ClientManager : BaseNetworking {
 
@@ -21,6 +24,8 @@ public class ClientManager : BaseNetworking {
     public Action<QTClient> onWorkerConnected;
     public Action onRoomsUpdated;
 
+    public XRLoader OpenVRLoader;
+
     void Awake() {
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -28,13 +33,17 @@ public class ClientManager : BaseNetworking {
 
     void Start() {
         rooms = new Dictionary<string, RoomInfo>();
-
         spawnManager = new ClientSpawnManager();
 
         onMasterConnected += handleMasterConnected;
         onWorkerConnected += handleWorkerConnected;
         onRoomsUpdated += debugNewRooms;
         SceneManager.sceneLoaded += handleSceneLoaded;
+
+        XRGeneralSettings.Instance.Manager.loaders.Clear();
+        XRGeneralSettings.Instance.Manager.StopSubsystems();
+        XRGeneralSettings.Instance.Manager.DeinitializeLoader();
+        onMasterConnected += initializeVR;
     }
 
     void Update() {
@@ -104,5 +113,15 @@ public class ClientManager : BaseNetworking {
 
     public void debugNewRooms() {
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Recieved new rooms list...");
+    }
+
+    public void initializeVR(QTClient client) {
+        if (OpenVR.IsHmdPresent()) {
+            XRGeneralSettings.Instance.Manager.loaders.Add(OpenVRLoader);
+            XRGeneralSettings.Instance.Manager.InitializeLoaderSync();
+            XRGeneralSettings.Instance.Manager.StartSubsystems();
+
+            SteamVR.Initialize();
+        }
     }
 }

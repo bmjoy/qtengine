@@ -26,9 +26,11 @@ using ProtoBuf;
 [ProtoInclude(20, typeof(WorkerReadyMessage))]
 [ProtoInclude(21, typeof(AnimationParameterInfoMessage))]
 [ProtoInclude(22, typeof(SyncRotationMessage))]
+[ProtoInclude(23, typeof(ClientInfoMessage))]
+[ProtoInclude(24, typeof(VRActionMessage))]
 public abstract class QTMessage {
 
-    public enum type { EVENT, SYNC_POSITION, SYNC_ROTATION, HEARTBEAT, REQUEST_HEARTBEAT, INPUT, SPAWN, READY, REQUEST_SYNC, OWNER, SESSION, DESPAWN, INPUT_AXIS, REQUEST_ROOMS, ROOMS, WORKER_INFO, WORKER_DEBUG, SYNC_FIELD, CALL_FUNCTION, ROOM_INFO, WORKER_READY, SYNC_ANIMATION }
+    public enum type { EVENT, SYNC_POSITION, SYNC_ROTATION, HEARTBEAT, REQUEST_HEARTBEAT, INPUT, SPAWN, READY, REQUEST_SYNC, OWNER, SESSION, DESPAWN, INPUT_AXIS, REQUEST_ROOMS, ROOMS, WORKER_INFO, WORKER_DEBUG, SYNC_FIELD, CALL_FUNCTION, ROOM_INFO, WORKER_READY, SYNC_ANIMATION, CLIENT_INFO, VR_ACTION }
 
     [ProtoMember(1001)]
     public type messageType;

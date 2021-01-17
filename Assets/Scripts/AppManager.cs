@@ -13,7 +13,6 @@ public class AppManager : BaseBehaviour {
         instance = this;
 
         onUpdate += handleUpdate;
-        SteamVR.Initialize();
     }
 
     public void handleUpdate() {

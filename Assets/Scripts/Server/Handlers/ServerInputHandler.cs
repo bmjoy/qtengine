@@ -29,6 +29,11 @@ public class ServerInputHandler : BaseMessageHandler {
                 InputAxisMessage inputAxisMessage = (InputAxisMessage)message;
                 updateAxisState(inputAxisMessage.axis, inputAxisMessage.value);
                 break;
+
+            case QTMessage.type.VR_ACTION:
+                VRActionMessage actionMessage = (VRActionMessage)message;
+                updateVRAction(actionMessage.actionName, QTUtils.getValueFromVRActionMessage(actionMessage));
+                break;
         }
     }
 
@@ -57,6 +62,16 @@ public class ServerInputHandler : BaseMessageHandler {
             qtRemoteClient.syncedAxis.Add(axis, value);
         } else {
             qtRemoteClient.syncedAxis[axis] = value;
+        }
+    }
+
+    public void updateVRAction(string actionName, object value) {
+        WorkerServerQTClient qtRemoteClient = (WorkerServerQTClient)client;
+
+        if (qtRemoteClient.syncedVRActions.ContainsKey(actionName) == false) {
+            qtRemoteClient.syncedVRActions.Add(actionName, value);
+        } else {
+            qtRemoteClient.syncedVRActions[actionName] = value;
         }
     }
 }

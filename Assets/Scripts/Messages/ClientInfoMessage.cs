@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProtoBuf;
 
-public class ClientInfoMessage : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[ProtoContract]
+public class ClientInfoMessage : QTMessage {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public ClientInfoMessage() {
+        messageType = type.CLIENT_INFO;
     }
 }

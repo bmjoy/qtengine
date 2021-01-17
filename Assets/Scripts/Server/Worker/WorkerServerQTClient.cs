@@ -16,6 +16,7 @@ public class WorkerServerQTClient : ServerQTClient {
 
     public Dictionary<KeyCode, bool> syncedKeys;
     public Dictionary<string, float> syncedAxis;
+    public Dictionary<string, object> syncedVRActions;
 
     public WorkerServerQTClient(BaseServerManager _manager, TcpClient _client) : base(_manager, _client, clientType.WORKER_SERVER) {
         inputHandler = new ServerInputHandler(this);
@@ -24,5 +25,6 @@ public class WorkerServerQTClient : ServerQTClient {
 
         syncedKeys = new Dictionary<KeyCode, bool>();
         syncedAxis = new Dictionary<string, float>();
+        syncedVRActions = new Dictionary<string, object>();
     }
 }

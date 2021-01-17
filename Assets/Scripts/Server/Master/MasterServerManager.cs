@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class MasterServerManager : BaseServerManager {
 
@@ -46,6 +47,8 @@ public class MasterServerManager : BaseServerManager {
     }
 
     public override void setupServer(int port) {
+        XRSettings.enabled = false;
+
         setupTCPServer(port);
         webServer.setupWebServer();
         workersManager.spawnWorker("__global");

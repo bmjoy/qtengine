@@ -244,6 +244,29 @@ public class QTUtils : MonoBehaviour {
         }
    }
 
+    public static object getValueFromVRActionMessage(VRActionMessage message) {
+        switch (message.syncedValueType) {
+            case VRActionMessage.syncType.VECTOR1: {
+                VRActionVector1Message syncMessageDetailed = (VRActionVector1Message)message;
+                return syncMessageDetailed.value;
+            }
+
+            case VRActionMessage.syncType.VECTOR2: {
+                VRActionVector2Message syncMessageDetailed = (VRActionVector2Message)message;
+                return new Vector2(syncMessageDetailed.value_0, syncMessageDetailed.value_1);
+            }
+
+            case VRActionMessage.syncType.BOOL: {
+                VRActionBoolMessage syncMessageDetailed = (VRActionBoolMessage)message;
+                return syncMessageDetailed.value;
+            }
+
+            default: {
+                return null;
+            }
+        }
+    }
+
     public static AnimationParameterInfoMessage getSyncAnimationMessage(string fieldName, object fieldValue) {
         AnimationParameterInfoMessage message = new AnimationParameterInfoMessage();
         if (fieldValue.GetType() == typeof(int)) {
