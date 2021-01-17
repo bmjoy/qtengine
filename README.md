@@ -19,9 +19,19 @@
 <br />
 [x] Very low packet sizes (almost same as source objects) using protobuf-net allowing thousand of updates per second 
 <br />
+[x] Authoritive due to the low ammount of data controlled by the client
+<br />
 [-] Web interface to interact with the server
 <br />
 [-] Easy to use database using Redis
+<br />
+[-] Uploading/Downloading assets from the server
+<br />
+[-] Caching assets on a local disk
+<br />
+[-] Custom ticking system for scheduling events
+<br />
+[-] SSL Encryption
 <br />
 <div>
 <br />
@@ -41,13 +51,31 @@
 <br />
 [-] Syncing scale
 <br />
+[-] Syncing client mouse buttons (configurable buttons)
+<br />
 [x] Syncing client input (configurable keys)
 <br />
 [x] Syncing client axis (configurable axises)
 <br />
+[-] Syncing client VR trackers position
+<br />
+[-] Syncing client VR trackers rotation
+<br />
+[-] Syncing client VR input
+<br />
+[-] Syncing client VR specifications
+<br />
+[-] Syncing client hardware specifications
+<br />
 [x] Syncing function calls
 <br />
 [x] Syncing function calls with arguments
+<br />
+[x] Syncing object ownership
+<br />
+[-] Syncing object active state
+<br />
+[-] Syncing client logs
 </div>
 <br />
 <b>Syncing components:</b>
