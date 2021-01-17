@@ -29,7 +29,9 @@
 <div>
 [x] Syncing primitives (int, float, bool, string, ...)
 <br />
-[-] Syncing arrays
+[x] Syncing arrays
+<br />
+[x] Syncing dictionaries
 <br />
 [x] Syncing spawning objects
 <br />
@@ -57,6 +59,40 @@
 [-] SyncAudio - synchronizes volume, play states of object
 <br />
 [-] SyncVideo - synchronizes volume, play states of object
+<br />
+</div>
+<br />
+<b>Master server workflow:</b>
+<div>
+> Master server sets up a TCP server on port 8111
+<br />
+> Master server spawns server workers
+<br />
+</div>
+<br />
+<b>Server worker workflow:</b>
+<div>
+> Server worker sets up a TCP server on port 8112++
+<br />
+> Server worker connects to a master server through port 8111
+<br />
+> Server worker sends WorkerReadyMessage and recieves RoomInfoMessage in exchange
+<br />
+> Server worker sends WorkerInfoMessage to server
+<br />
+</div>
+<br />
+<b>Client workflow:</b>
+<div>
+> Client connects to a master server through port 8111
+<br />
+> Client sends RequestRoomsMessage and recieves RoomsMessage in exchange
+<br />
+> Client connects to a specific server worker through port specified in RoomInfo
+<br />
+> Client sends ClientInfoMessage and RequestSyncMessage and recieves updates to catch up with current state of the scene
+<br />
+> Client sends ReadyMessage to start recieving updates
 <br />
 </div>
 </div>
