@@ -19,9 +19,19 @@
 <br />
 [x] Very low packet sizes (almost same as source objects) using protobuf-net allowing thousand of updates per second 
 <br />
+[x] Authoritive due to the low ammount of data controlled by the client
+<br />
 [-] Web interface to interact with the server
 <br />
 [-] Easy to use database using Redis
+<br />
+[-] Uploading/Downloading assets from the server
+<br />
+[-] Caching assets on a local disk
+<br />
+[-] Custom ticking system for scheduling events
+<br />
+[-] SSL Encryption
 <br />
 <div>
 <br />
