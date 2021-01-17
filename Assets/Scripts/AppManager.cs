@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class AppManager : BaseBehaviour {
 
@@ -10,6 +11,13 @@ public class AppManager : BaseBehaviour {
     void Awake() {
         DontDestroyOnLoad(gameObject);
         instance = this;
+
+        onUpdate += handleUpdate;
+        SteamVR.Initialize();
+    }
+
+    public void handleUpdate() {
+        
     }
 
     public void closeApp() {

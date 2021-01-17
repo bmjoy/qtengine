@@ -1,0 +1,221 @@
+{
+  "app_key": "application.generated.unity.qtengine.exe",
+  "bindings": {
+    "/actions/buggy": {
+      "chords": [],
+      "poses": [],
+      "haptics": [],
+      "sources": [],
+      "skeleton": []
+    },
+    "/actions/default": {
+      "chords": [],
+      "poses": [],
+      "haptics": [
+        {
+          "output": "/actions/default/out/haptic",
+          "path": "/user/hand/left/output/haptic"
+        },
+        {
+          "output": "/actions/default/out/haptic",
+          "path": "/user/hand/right/output/haptic"
+        }
+      ],
+      "sources": [
+        {
+          "path": "/user/hand/left/input/trigger",
+          "mode": "trigger",
+          "parameters": {},
+          "inputs": {
+            "pull": {
+              "output": "/actions/default/in/trigger"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trigger",
+          "mode": "trigger",
+          "parameters": {},
+          "inputs": {
+            "pull": {
+              "output": "/actions/default/in/trigger"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/trackpad",
+          "mode": "dpad",
+          "parameters": {
+            "sub_mode": "touch"
+          },
+          "inputs": {
+            "center": {
+              "output": "/actions/default/in/padcentertouch"
+            },
+            "east": {
+              "output": "/actions/default/in/padeasttouch"
+            },
+            "north": {
+              "output": "/actions/default/in/padnorthtouch"
+            },
+            "south": {
+              "output": "/actions/default/in/padsouthtouch"
+            },
+            "west": {
+              "output": "/actions/default/in/padwesttouch"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trackpad",
+          "mode": "dpad",
+          "parameters": {
+            "sub_mode": "touch"
+          },
+          "inputs": {
+            "center": {
+              "output": "/actions/default/in/padcentertouch"
+            },
+            "east": {
+              "output": "/actions/default/in/padeasttouch"
+            },
+            "north": {
+              "output": "/actions/default/in/padnorthtouch"
+            },
+            "south": {
+              "output": "/actions/default/in/padsouthtouch"
+            },
+            "west": {
+              "output": "/actions/default/in/padwesttouch"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/trackpad",
+          "mode": "dpad",
+          "parameters": {
+            "sub_mode": "click"
+          },
+          "inputs": {
+            "center": {
+              "output": "/actions/default/in/padcenterclick"
+            },
+            "east": {
+              "output": "/actions/default/in/padeastclick"
+            },
+            "north": {
+              "output": "/actions/default/in/padnorthclick"
+            },
+            "south": {
+              "output": "/actions/default/in/padsouthclick"
+            },
+            "west": {
+              "output": "/actions/default/in/padwestclick"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trackpad",
+          "mode": "dpad",
+          "parameters": {
+            "sub_mode": "click"
+          },
+          "inputs": {
+            "center": {
+              "output": "/actions/default/in/padcenterclick"
+            },
+            "east": {
+              "output": "/actions/default/in/padeastclick"
+            },
+            "north": {
+              "output": "/actions/default/in/padnorthclick"
+            },
+            "south": {
+              "output": "/actions/default/in/padsouthclick"
+            },
+            "west": {
+              "output": "/actions/default/in/padwestclick"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/trackpad",
+          "mode": "trackpad",
+          "parameters": {},
+          "inputs": {
+            "position": {
+              "output": "/actions/default/in/padposition"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trackpad",
+          "mode": "trackpad",
+          "parameters": {},
+          "inputs": {
+            "position": {
+              "output": "/actions/default/in/padposition"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/application_menu",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/menuclick"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/application_menu",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/menuclick"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/joystick",
+          "mode": "joystick",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/joystickclick"
+            },
+            "position": {
+              "output": "/actions/default/in/joystickposition"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/joystick",
+          "mode": "joystick",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/joystickclick"
+            },
+            "position": {
+              "output": "/actions/default/in/joystickposition"
+            }
+          }
+        }
+      ],
+      "skeleton": []
+    },
+    "/actions/platformer": {
+      "chords": [],
+      "poses": [],
+      "haptics": [],
+      "sources": [],
+      "skeleton": []
+    }
+  },
+  "controller_type": "holographic_controller",
+  "description": "",
+  "name": "Default bindings for Windows Mixed Reality Controllers"
+}
