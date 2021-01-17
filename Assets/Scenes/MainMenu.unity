@@ -3798,6 +3798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  OpenVRLoader: {fileID: 11400000, guid: 325eb6764ec9b0641bc2f9585c69ac9c, type: 2}
 --- !u!4 &867705212
 Transform:
   m_ObjectHideFlags: 0
@@ -3824,6 +3825,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74c420c433d7df84e990d085bc412397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poseAction:
+    actionPath: /actions/default/in/Pose
+    needsReinit: 0
+  syncedVRBooleanActions:
+  - actionPath: /actions/default/in/PadNorthTouch
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadEastTouch
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadSouthTouch
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadWestTouch
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadNorthClick
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadEastClick
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadSouthClick
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadWestClick
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadCenterTouch
+    needsReinit: 0
+  - actionPath: /actions/default/in/PadCenterClick
+    needsReinit: 0
+  - actionPath: /actions/default/in/Grip
+    needsReinit: 0
+  - actionPath: /actions/default/in/MenuClick
+    needsReinit: 0
+  - actionPath: /actions/default/in/JoystickClick
+    needsReinit: 0
+  syncedVRVector1Actions:
+  - actionPath: /actions/default/in/Trigger
+    needsReinit: 0
+  syncedVRVector2Actions:
+  - actionPath: /actions/default/in/PadPosition
+    needsReinit: 0
+  - actionPath: /actions/default/in/JoystickPosition
+    needsReinit: 0
 --- !u!114 &867705215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3919,7 +3958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 513.464, y: 316.9186, z: -10.866882}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
