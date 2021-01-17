@@ -41,13 +41,31 @@
 <br />
 [-] Syncing scale
 <br />
+[-] Syncing client mouse buttons (configurable buttons)
+<br />
 [x] Syncing client input (configurable keys)
 <br />
 [x] Syncing client axis (configurable axises)
 <br />
+[-] Syncing client VR trackers position
+<br />
+[-] Syncing client VR trackers rotation
+<br />
+[-] Syncing client VR input
+<br />
+[-] Syncing client VR specifications
+<br />
+[-] Syncing client hardware specifications
+<br />
 [x] Syncing function calls
 <br />
 [x] Syncing function calls with arguments
+<br />
+[x] Syncing object ownership
+<br />
+[-] Syncing object active state
+<br />
+[-] Syncing client logs
 </div>
 <br />
 <b>Syncing components:</b>
