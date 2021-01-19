@@ -23,7 +23,7 @@
 <br />
 [-] Web interface to interact with the server
 <br />
-[-] Easy to use database using Redis
+[x] Easy to use database using Redis
 <br />
 [-] Uploading/Downloading assets from the server
 <br />
@@ -57,11 +57,11 @@
 <br />
 [x] Syncing client axis (configurable axises)
 <br />
-[-] Syncing client VR trackers position
+[x] Syncing client VR trackers position
 <br />
-[-] Syncing client VR trackers rotation
+[x] Syncing client VR trackers rotation
 <br />
-[-] Syncing client VR input
+[x] Syncing client VR input
 <br />
 [-] Syncing client VR specifications
 <br />
@@ -71,9 +71,11 @@
 <br />
 [x] Syncing function calls with arguments
 <br />
+[x] Asynchronous messare responses
+<br />
 [x] Syncing object ownership
 <br />
-[-] Syncing object active state
+[x] Syncing object active state
 <br />
 [-] Syncing client logs
 </div>
