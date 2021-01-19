@@ -14,7 +14,6 @@ public class QTClient : BaseQTClient {
     public ClientSyncHandler syncHandler;
     public ClientSpawnHandler spawnHandler;
     public ClientSessionHandler sessionHandler;
-    public ClientRoomsHandler roomsHandler;
     public ClientOwnerHandler ownerHandler;
 
     public QTClient(ClientManager _manager, TcpClient _client) : base(_client, clientType.CLIENT) {
@@ -23,7 +22,6 @@ public class QTClient : BaseQTClient {
         syncHandler = new ClientSyncHandler(this);
         spawnHandler = new ClientSpawnHandler(this);
         sessionHandler = new ClientSessionHandler(this);
-        roomsHandler = new ClientRoomsHandler(this);
         ownerHandler = new ClientOwnerHandler(this);
 
         onMessageRecieved += handleMessage;
@@ -33,7 +31,8 @@ public class QTClient : BaseQTClient {
         switch(message.messageType) {
             case QTMessage.type.REQUEST_HEARTBEAT:
                 double currentTimestamp = (DateTime.Now - DateTime.MinValue).TotalMilliseconds;
-                HeartbeatMessage heartbeatMessage = new HeartbeatMessage();
+                RequestHeartbeatMessage requestMessage = (RequestHeartbeatMessage)message;
+                HeartbeatMessage heartbeatMessage = new HeartbeatMessage(requestMessage);
                 heartbeatMessage.serverTimestamp = ((RequestHeartbeatMessage)message).createdTimestamp;
                 heartbeatMessage.createdTimestamp = currentTimestamp;
 

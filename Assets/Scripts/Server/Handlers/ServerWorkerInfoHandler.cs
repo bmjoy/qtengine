@@ -21,7 +21,7 @@ public class ServerWorkerInfoHandler : BaseMessageHandler {
                 roomInfoMessage.room = worker.room;
                 qtRemoteClient.sendMessage(roomInfoMessage);
 
-                QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Worker(" + worker.room.id + ") is ready...");
+                worker.onWorkerReady();
                 break;
             }
 

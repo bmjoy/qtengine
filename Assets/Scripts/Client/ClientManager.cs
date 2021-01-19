@@ -40,9 +40,6 @@ public class ClientManager : BaseNetworking {
         onRoomsUpdated += debugNewRooms;
         SceneManager.sceneLoaded += handleSceneLoaded;
 
-        XRGeneralSettings.Instance.Manager.loaders.Clear();
-        XRGeneralSettings.Instance.Manager.StopSubsystems();
-        XRGeneralSettings.Instance.Manager.DeinitializeLoader();
         onMasterConnected += initializeVR;
     }
 
@@ -82,7 +79,7 @@ public class ClientManager : BaseNetworking {
     }
 
     public void setupMasterClient() {
-        TcpClient tcpClient = new TcpClient("127.0.0.1", 8111);
+        TcpClient tcpClient = new TcpClient(AppSettings.instance.serverIP, 8111);
         masterClient = new QTClient(this, tcpClient);
         masterClient.remoteType = BaseQTClient.clientType.MASTER_SERVER;
 
@@ -90,7 +87,7 @@ public class ClientManager : BaseNetworking {
     }
 
     public void setupWorkerClient(string ip, int port) {
-        TcpClient tcpClient = new TcpClient("127.0.0.1", port);
+        TcpClient tcpClient = new TcpClient(AppSettings.instance.serverIP, port);
         workerClient = new QTClient(this, tcpClient);
         workerClient.remoteType = BaseQTClient.clientType.WORKER_SERVER;
 
@@ -102,6 +99,13 @@ public class ClientManager : BaseNetworking {
         state = componentState.RUNNING;
 
         RequestRoomsMessage message = new RequestRoomsMessage();
+        message.onResponse += (QTResponsableMessage message) => {
+            RoomsMessage roomsMesage = (RoomsMessage)message;
+            rooms = roomsMesage.rooms;
+
+            onRoomsUpdated();
+        };
+
         client.sendMessage(message);
     }
 
@@ -116,6 +120,7 @@ public class ClientManager : BaseNetworking {
     }
 
     public void initializeVR(QTClient client) {
+        return;
         if (OpenVR.IsHmdPresent()) {
             XRGeneralSettings.Instance.Manager.loaders.Add(OpenVRLoader);
             XRGeneralSettings.Instance.Manager.InitializeLoaderSync();
@@ -123,5 +128,15 @@ public class ClientManager : BaseNetworking {
 
             SteamVR.Initialize();
         }
+    }
+
+    public void requestNewInstance() {
+        RequestNewInstanceMessage message = new RequestNewInstanceMessage();
+        message.onResponse += (QTResponsableMessage message) => {
+            InstanceMessage instanceMessage = (InstanceMessage)message;
+            setupWorkerClient(instanceMessage.room.ip, instanceMessage.room.port);
+        };
+
+        masterClient.sendMessage(message);
     }
 }

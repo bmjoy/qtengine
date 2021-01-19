@@ -5,13 +5,16 @@ using UnityEngine;
 public class SyncGameobject : BaseQTObjectComponent {
 
     /* Server */
-    public bool syncPosition, syncRotation;
+    public bool syncPosition = true, syncRotation = true;
+    public bool syncActive = false;
     public bool useInterpolation = false;
 
     [HideInInspector]
     public Vector3 lastPosition;
     [HideInInspector]
     public Vector3 lastRotation;
+    [HideInInspector]
+    public bool lastActive;
 
     /* Client */
     [HideInInspector]
@@ -37,9 +40,13 @@ public class SyncGameobject : BaseQTObjectComponent {
         if (syncRotation && gameObject.transform.rotation.eulerAngles != lastRotation) {
             emitRotationSync();
         }
+        if (syncActive && gameObject.activeSelf != lastActive) {
+            emitActiveSync();
+        }
 
         lastPosition = gameObject.transform.position;
         lastRotation = gameObject.transform.rotation.eulerAngles;
+        lastActive = gameObject.activeSelf;
     }
 
     public void emitPositionSync() {
@@ -58,6 +65,14 @@ public class SyncGameobject : BaseQTObjectComponent {
         message.rotX = gameObject.transform.rotation.eulerAngles.x;
         message.rotY = gameObject.transform.rotation.eulerAngles.y;
         message.rotZ = gameObject.transform.rotation.eulerAngles.z;
+        message.index = index;
+        WorkerServerManager.instance.sendMessageToAllReady(message);
+    }
+
+    public void emitActiveSync() {
+        SyncActiveMessage message = new SyncActiveMessage();
+        message.objectID = obj.objectID;
+        message.value = gameObject.activeSelf;
         message.index = index;
         WorkerServerManager.instance.sendMessageToAllReady(message);
     }

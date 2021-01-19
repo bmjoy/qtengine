@@ -4,12 +4,12 @@ using System.Runtime.Serialization;
 using ProtoBuf;
 
 [ProtoContract]
-public class RequestHeartbeatMessage : QTMessage {
+public class RequestHeartbeatMessage : QTResponsableMessage {
 
     [ProtoMember(2001)]
     public double createdTimestamp;
 
-    public RequestHeartbeatMessage() {
+    public RequestHeartbeatMessage() : base() {
         messageType = type.REQUEST_HEARTBEAT;
     }
 }

@@ -16,10 +16,10 @@ public abstract class BaseServerManager : BaseNetworking {
     public TcpListener server;
     public List<QTMessageLog> messageLog;
 
-    public Action<ServerQTClient> onClientConnected;
-    public Action<ServerQTClient> onClientDisconnected;
-    public Action<ServerQTClient, QTMessage> onMessageReceived;
-    public Action<ServerQTClient, QTMessage> onMessageSent;
+    public Action<BaseQTClient> onClientConnected;
+    public Action<BaseQTClient> onClientDisconnected;
+    public Action<BaseQTClient, QTMessage> onMessageReceived;
+    public Action<BaseQTClient, QTMessage> onMessageSent;
 
     public void handleStart() {
         messageLog = new List<QTMessageLog>();
@@ -42,7 +42,10 @@ public abstract class BaseServerManager : BaseNetworking {
             qtRemoteClient.closeConnection();
         }
 
-        database.close();
+        if (database != null) {
+            database.close();
+        }
+
         server.Stop();
         connections.thread.Abort();
     }

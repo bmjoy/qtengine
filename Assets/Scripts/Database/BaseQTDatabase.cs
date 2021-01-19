@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,12 +16,14 @@ public class BaseQTDatabase {
     public void connect() {
         ConfigurationOptions options = new ConfigurationOptions {
             AbortOnConnectFail = false,
-            EndPoints = { "127.0.0.1:6397" },
+            EndPoints = { "127.0.0.1:6379" },
             Password = "testingpassword"
         };
 
         muxer = ConnectionMultiplexer.Connect(options);
         conn = muxer.GetDatabase();
+
+        QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Connected to a Redis database...");
     }
 
     public void close() {
@@ -28,4 +31,5 @@ public class BaseQTDatabase {
             muxer.Close();
         }
     }
+
 }

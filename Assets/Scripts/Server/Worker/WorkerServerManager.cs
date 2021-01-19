@@ -47,10 +47,13 @@ public class WorkerServerManager : BaseServerManager {
     }
 
     public override void setupServer(int port) {
-        XRSettings.enabled = false;
+        //XRSettings.enabled = false;
 
         setupTCPServer(port);
         state = componentState.RUNNING;
+
+        AppManager.instance.mainCamera.gameObject.SetActive(false);
+        AppManager.instance.disableAllMenus();
 
         SceneManager.LoadScene(ServerSettings.instance.serverScene, LoadSceneMode.Single);
         onServerStart(port);

@@ -12,7 +12,8 @@ public class ClientSpawnHandler : BaseMessageHandler {
         switch (message.messageType) {
             case QTMessage.type.SPAWN:
                 SpawnMessage spawnMessage = (SpawnMessage)message;
-                ClientManager.instance.spawnManager.spawnObject(spawnMessage.objectID, spawnMessage.prefabName, spawnMessage.spawnPosition, spawnMessage.spawnRotation);
+                BaseQTObject obj = ClientManager.instance.spawnManager.spawnObject(spawnMessage.objectID, spawnMessage.prefabName, spawnMessage.spawnPosition, spawnMessage.spawnRotation);
+                obj.gameObject.SetActive(spawnMessage.active);
                 break;
 
             case QTMessage.type.DESPAWN:

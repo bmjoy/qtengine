@@ -23,7 +23,7 @@ public class WorkerServerConnectionsManager : BaseServerConnectionsManager {
     }
 
     public override void handleConnects() {
-        TcpClient masterTCPClient = new TcpClient(AppSettings.instance.serverIP, 8111);
+        TcpClient masterTCPClient = new TcpClient("127.0.0.1", 8111);
         masterClient = new WorkerQTClient(manager, masterTCPClient);
         masterClient.remoteType = BaseQTClient.clientType.MASTER_SERVER;
         QTDebugger.instance.networkClient = masterClient;
@@ -33,7 +33,7 @@ public class WorkerServerConnectionsManager : BaseServerConnectionsManager {
         while (true) {
             TcpClient tcpClient = manager.server.AcceptTcpClient();
             WorkerServerQTClient client = new WorkerServerQTClient(manager, tcpClient);
-            clients.Add(client);
+            client.onConnectionClosed += manager.onClientDisconnected;
 
             manager.onClientConnected(client);
         }
@@ -51,6 +51,10 @@ public class WorkerServerConnectionsManager : BaseServerConnectionsManager {
             if (currentTimestamp - lastHeartbeatRequest > ServerSettings.instance.heartbeatRate) {
                 RequestHeartbeatMessage message = new RequestHeartbeatMessage();
                 message.createdTimestamp = currentTimestamp;
+                message.onResponse += (QTResponsableMessage message) => {
+                    double currentTimestamp = (DateTime.Now - DateTime.MinValue).TotalMilliseconds;
+                    client.lastHeartbeatTimestamp = currentTimestamp;
+                };
 
                 client.sendMessage(message);
             }

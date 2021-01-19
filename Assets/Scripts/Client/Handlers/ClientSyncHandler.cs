@@ -35,6 +35,18 @@ public class ClientSyncHandler : BaseMessageHandler {
                 break;
             }
 
+            case QTMessage.type.SYNC_ACTIVE: {
+                SyncActiveMessage syncMessage = (SyncActiveMessage)message;
+                if(ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {
+                    return;
+                }
+
+                ClientQTObject clientObject = (ClientQTObject)ClientManager.instance.spawnManager.spawnedObjects[syncMessage.objectID];
+                SyncGameobject syncComponent = (SyncGameobject)clientObject.objectComponents[syncMessage.index];
+                syncComponent.gameObject.SetActive(syncMessage.value);
+                break;
+            }
+
             case QTMessage.type.SYNC_FIELD: {
                 FieldInfoMessage syncMessage = (FieldInfoMessage)message;
                 if (ClientManager.instance.spawnManager.spawnedObjects.ContainsKey(syncMessage.objectID) == false) {

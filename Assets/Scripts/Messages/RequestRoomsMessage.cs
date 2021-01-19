@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 using ProtoBuf;
 
 [ProtoContract]
-public class RequestRoomsMessage : QTMessage {
+public class RequestRoomsMessage : QTResponsableMessage {
 
-    public RequestRoomsMessage() {
+    public RequestRoomsMessage() : base() {
         messageType = type.REQUEST_ROOMS;
     }
 }

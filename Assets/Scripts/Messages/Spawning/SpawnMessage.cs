@@ -16,6 +16,8 @@ public class SpawnMessage : QTMessage {
     public SyncPositionMessage spawnPosition;
     [ProtoMember(2004)]
     public SyncRotationMessage spawnRotation;
+    [ProtoMember(2005)]
+    public bool active;
 
     public SpawnMessage() {
         messageType = type.SPAWN;

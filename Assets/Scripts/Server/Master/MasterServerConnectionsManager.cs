@@ -18,7 +18,7 @@ public class MasterServerConnectionsManager : BaseServerConnectionsManager {
         while (true) {
             TcpClient tcpClient = manager.server.AcceptTcpClient();
             MasterServerQTClient client = new MasterServerQTClient(manager, tcpClient);
-            clients.Add(client);
+            client.onConnectionClosed += manager.onClientDisconnected;
 
             manager.onClientConnected(client);
         }
@@ -35,6 +35,10 @@ public class MasterServerConnectionsManager : BaseServerConnectionsManager {
             if (currentTimestamp - lastHeartbeatRequest > ServerSettings.instance.heartbeatRate) {
                 RequestHeartbeatMessage message = new RequestHeartbeatMessage();
                 message.createdTimestamp = currentTimestamp;
+                message.onResponse += (QTResponsableMessage message) => {
+                    double currentTimestamp = (DateTime.Now - DateTime.MinValue).TotalMilliseconds;
+                    client.lastHeartbeatTimestamp = currentTimestamp;
+                };
 
                 client.sendMessage(message);
             }

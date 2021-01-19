@@ -8,7 +8,7 @@ public class QTDebugger {
     public WorkerQTClient networkClient;
 
     public enum unityDebugType { LOG, LOGWARNING, LOGERROR }
-    public enum debugType { BASE, EVENTS, NETWORK, NETWORK_WORKER }
+    public enum debugType { BASE, EVENTS, NETWORK, NETWORK_WORKER, NETWORK_DETAILED }
     public List<debugType> enabledDebugTypes;
 
     public QTDebugger() {
@@ -16,6 +16,7 @@ public class QTDebugger {
         enabledDebugTypes.Add(debugType.BASE);
         enabledDebugTypes.Add(debugType.EVENTS);
         enabledDebugTypes.Add(debugType.NETWORK);
+        enabledDebugTypes.Add(debugType.NETWORK_DETAILED);
         enabledDebugTypes.Add(debugType.NETWORK_WORKER);
     }
 

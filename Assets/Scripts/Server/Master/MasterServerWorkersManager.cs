@@ -15,7 +15,6 @@ public class MasterServerWorkersManager {
     public MasterServerWorker spawnWorker(string id) {
         RoomInfo room = new RoomInfo();
         room.id = id;
-        room.ip = AppSettings.instance.serverIP;
         room.port = lastWorkerPort;
 
         MasterServerWorker worker = new MasterServerWorker(room);

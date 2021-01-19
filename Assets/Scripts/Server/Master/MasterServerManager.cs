@@ -14,6 +14,7 @@ public class MasterServerManager : BaseServerManager {
 
     public static MasterServerManager instance { get; protected set; }
     public MasterServerWorkersManager workersManager;
+    public ServerAuthManager authManager;
     public WebServer webServer;
 
     void Awake() {
@@ -32,6 +33,7 @@ public class MasterServerManager : BaseServerManager {
 
         webServer = new WebServer(this);
         workersManager = new MasterServerWorkersManager();
+        authManager = new ServerAuthManager(this);
     }
 
     public void handleMasterApplicationQuit() {
@@ -47,14 +49,17 @@ public class MasterServerManager : BaseServerManager {
     }
 
     public override void setupServer(int port) {
-        XRSettings.enabled = false;
+        //XRSettings.enabled = false;
 
         setupTCPServer(port);
         webServer.setupWebServer();
-        workersManager.spawnWorker("__global");
+        //workersManager.spawnWorker("__global");
         database.connect();
 
         QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Started master server on port " + port + "...");
         state = componentState.RUNNING;
+
+        AppManager.instance.disableAllMenus();
+        AppManager.instance.masterServerMenu.SetActive(true);
     }
 }

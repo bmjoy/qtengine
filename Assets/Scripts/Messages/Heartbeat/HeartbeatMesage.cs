@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using ProtoBuf;
 
 [ProtoContract]
-public class HeartbeatMessage : QTMessage {
+public class HeartbeatMessage : QTResponsableMessage {
 
     [ProtoMember(2001)]
     public double serverTimestamp;
@@ -12,7 +12,7 @@ public class HeartbeatMessage : QTMessage {
     [ProtoMember(2002)]
     public double createdTimestamp;
 
-    public HeartbeatMessage() {
+    public HeartbeatMessage(QTResponsableMessage _message=null) : base(_message) {
         messageType = type.HEARTBEAT;
     }
 }

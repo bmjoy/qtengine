@@ -5,12 +5,12 @@ using System.Runtime.Serialization;
 using ProtoBuf;
 
 [ProtoContract]
-public class RoomsMessage : QTMessage {
+public class RoomsMessage : QTResponsableMessage {
 
     [ProtoMember(2001)]
     public Dictionary<string, RoomInfo> rooms;
 
-    public RoomsMessage() {
+    public RoomsMessage(QTResponsableMessage _message = null) : base(_message) {
         messageType = type.ROOMS;
     }
 }

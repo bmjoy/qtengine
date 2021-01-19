@@ -22,7 +22,8 @@ public class WorkerQTClient : BaseQTClient {
         switch (message.messageType) {
             case QTMessage.type.REQUEST_HEARTBEAT:
                 double currentTimestamp = (DateTime.Now - DateTime.MinValue).TotalMilliseconds;
-                HeartbeatMessage heartbeatMessage = new HeartbeatMessage();
+                RequestHeartbeatMessage requestMessage = (RequestHeartbeatMessage)message;
+                HeartbeatMessage heartbeatMessage = new HeartbeatMessage(requestMessage);
                 heartbeatMessage.serverTimestamp = ((RequestHeartbeatMessage)message).createdTimestamp;
                 heartbeatMessage.createdTimestamp = currentTimestamp;
 

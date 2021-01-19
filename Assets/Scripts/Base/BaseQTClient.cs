@@ -15,78 +15,105 @@ public abstract class BaseQTClient {
     public clientType remoteType = clientType.CLIENT;
 
     public TcpClient client;
-    public NetworkStream stream;
     public NetworkStreamThread thread;
     public BaseEventHandler eventHandler;
 
     public Action<QTMessage> onMessageRecieved;
     public Action<QTMessage> onMessageSent;
+    public Action<BaseQTClient> onConnectionClosed;
+
     public List<QTMessage> queuedMessages;
+    public Dictionary<string, QTResponsableMessage> awaitingResponse;
 
     public SessionInfo session;
     public string connectionIP;
+
+    private static readonly object recieveLock = new object();
+    private static readonly object sendLock = new object();
 
     public BaseQTClient(TcpClient _client, clientType _clientType) {
         client = _client;
         type = _clientType;
         queuedMessages = new List<QTMessage>();
-        connectionIP = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
+        awaitingResponse = new Dictionary<string, QTResponsableMessage>();
 
         onMessageRecieved += debugRecievedMessage;
         onMessageSent += debugSentMessage;
+        onConnectionClosed += debugConnectionClosed;
 
-        stream = client.GetStream();
         thread = new NetworkStreamThread(this);
+
+        connectionIP = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
     }
 
     public void processQueue() {
-        try {
-            if(queuedMessages.Count < 1) { return; }
+        lock (recieveLock) {
+            try {
+                if (queuedMessages.Count < 1) { return; }
 
-            List<QTMessage> queue = queuedMessages.ToList();
-            foreach (QTMessage message in queue) {
-                try {
-                    onMessageRecieved(message);
-                } catch(Exception e) {
-                    Debug.LogError(e);
+                List<QTMessage> queue = queuedMessages.ToList();
+                foreach (QTMessage message in queue) {
+                    try {
+                        onMessageRecieved(message);
+
+                        var responsableValid = message as QTResponsableMessage;
+                        if (responsableValid != null) {
+                            QTResponsableMessage responseMessage = (QTResponsableMessage)message;
+                            if (awaitingResponse.ContainsKey(responseMessage.responseID)) {
+                                awaitingResponse[responseMessage.responseID].onResponse(responseMessage);
+                                awaitingResponse.Remove(responseMessage.responseID);
+                            }
+                        }
+                    } catch (Exception e) {
+                        Debug.LogError(e);
+                    }
+
+                    queuedMessages.Remove(message);
                 }
-
-                queuedMessages.Remove(message);
+            } catch (Exception e) {
+                Debug.LogWarning(e);
             }
-        } catch {
-
         }
     }
 
     public void sendMessage(QTMessage message) {
-        if (client.Connected == false) { return; }
+        lock (sendLock) {
+            try {
+                if (client.Connected == false) { return; }
 
-        byte[] bytes = QTUtils.MessageToByteArray(message);
-        byte[] sizeBytes = BitConverter.GetBytes(bytes.Length);
+                byte[] bytes = QTUtils.MessageToByteArray(message);
+                byte[] sizeBytes = BitConverter.GetBytes(bytes.Length);
 
-        try {
-            //debugSent(sizeBytes, bytes);
+                try {
+                    debugSent(sizeBytes, bytes);
 
-            stream.Write(sizeBytes, 0, sizeBytes.Length);
-            stream.Write(bytes, 0, bytes.Length);
-        } catch {
-            QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "[" + type + "_base] Error while writing the NetworkStream-");
-            closeConnection();
+                    thread.stream.Write(sizeBytes, 0, sizeBytes.Length);
+                    thread.stream.Write(bytes, 0, bytes.Length);
+                } catch (Exception e) {
+                    QTDebugger.instance.debugWarning(QTDebugger.debugType.NETWORK, "[" + type + "_base] Error while writing the NetworkStream-");
+                    QTDebugger.instance.debugError(QTDebugger.debugType.NETWORK, e);
+
+                    closeConnection();
+                }
+
+                var responsableValid = message as QTResponsableMessage;
+                if (responsableValid != null) {
+                    QTResponsableMessage responseMessage = (QTResponsableMessage)message;
+                    awaitingResponse.Add(responseMessage.responseID, responseMessage);
+                }
+
+                onMessageSent(message);
+            } catch(Exception e) {
+                Debug.LogWarning(e);
+            }
         }
-
-        onMessageSent(message);
     }
 
     public void closeConnection() {
         client.Close();
         thread.thread.Abort();
 
-        if(type == clientType.MASTER_SERVER && MasterServerManager.instance.state == BaseNetworking.componentState.RUNNING) {
-            MasterServerManager.instance.onClientDisconnected((MasterServerQTClient)this);
-        }
-        if (type == clientType.WORKER_SERVER && WorkerServerManager.instance.state == BaseNetworking.componentState.RUNNING) {
-            WorkerServerManager.instance.onClientDisconnected((WorkerServerQTClient)this);
-        }
+        onConnectionClosed(this);
     }
 
     public void debugSent(byte[] sizeBytes, byte[] bytes) {
@@ -95,7 +122,7 @@ public abstract class BaseQTClient {
         byte[] c = { bytes[0], bytes[1] };
         byte[] d = { bytes[bytes.Length - 1], bytes[bytes.Length - 2] };
 
-        QTDebugger.instance.debug(QTDebugger.debugType.NETWORK,
+        QTDebugger.instance.debug(QTDebugger.debugType.NETWORK_DETAILED,
             "[" + type.ToString() + "_thread] Sending data of size " + bytes.Length + "B (" + sizeBytes.Length + "B)-\n" +
             "sizeBytes [" + BitConverter.ToString(sizeBytes) + "] / messageBytes [" + BitConverter.ToString(c) + ", ..., " + BitConverter.ToString(d) + "]"
         , false);
@@ -111,6 +138,10 @@ public abstract class BaseQTClient {
         if (message.messageType != QTMessage.type.WORKER_DEBUG) {
             //QTDebugger.instance.debug(QTDebugger.debugType.BASE, "Recieved message of type " + message.messageType.ToString());
         }
+    }
+
+    public void debugConnectionClosed(BaseQTClient client) {
+
     }
 
     public string getIP() {

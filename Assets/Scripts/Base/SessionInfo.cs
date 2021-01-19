@@ -9,4 +9,7 @@ public class SessionInfo {
     [ProtoMember(2001)]
     public string id;
 
+    [ProtoMember(2002)]
+    public UserInfo user;
+
 }
